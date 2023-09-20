@@ -1,0 +1,176 @@
+import 'package:flutter/material.dart';
+
+class AppState extends ChangeNotifier {
+  final void Function(bool) updateIsBegateway;
+  final void Function(Map<String, dynamic>) answearBegateway;
+  final String publicKey;
+  final bool test;
+  final String transactionType;
+  final String amount;
+  final String currency;
+  final String description;
+  final String language;
+  final String holder;
+  final String customerCountry;
+  final String customerEmail;
+  final bool customerContract;
+  final String buttonText;
+  final String applePayConfig;
+  final String googlePayConfig;
+  final List<Map<String, dynamic>> paymentItems;
+   //optional parameters for customizing styles
+  //card number
+  final int? cardNumberColor;
+  final double? cardNumberSize;
+
+  final int? cardNumberHintColor;
+  final double? cardNumberHintSize;
+  final String? cardNumberHintText;
+
+  final int? cardNumberTitleColor;
+  final double? cardNumberTitleSize;
+  final String? cardNumberTitleText;
+  //expiry date
+  final int? expireDateColor;
+  final double? expireDateSize;
+  
+  final int? expireDateHintColor;
+  final double? expireDateHintSize;
+  final String? expireDateHintText;
+
+  final int? expireDateTitleColor;
+  final double? expireDateTitleSize;
+  final String? expireDateTitleText;
+  //CVC/CVV
+  final int? cvcCvvColor;
+  final double? cvcCvvSize;
+  
+  final int? cvcCvvHintColor;
+  final double? cvcCvvHintSize;
+  final String? cvcCvvHintText;
+
+  final int? cvcCvvTitleColor;
+  final double? cvcCvvTitleSize;
+  final String? cvcCvvTitleText;
+  //cardholder name
+  final int? cardholderColor;
+  final double? cardholderSize;
+  
+  final int? cardholderHintColor;
+  final double? cardholderHintSize;
+  final String? cardholderHintText;
+
+  final int? cardholderTitleColor;
+  final double? cardholderTitleSize;
+  final String? cardholderTitleText;
+  
+
+  AppState(
+    this.updateIsBegateway,
+    this.answearBegateway,
+    this.publicKey,
+    this.test,
+    this.transactionType,
+    this.amount,
+    this.currency,
+    this.description,
+    this.language,
+    this.holder,
+    this.customerCountry,
+    this.customerEmail,
+    this.customerContract,
+    this.buttonText,
+    this.applePayConfig,
+    this.googlePayConfig,
+    this.paymentItems,
+    //optional parameters for customizing styles
+    //card number
+    this.cardNumberColor,
+    this.cardNumberSize,
+
+    this.cardNumberHintColor,
+    this.cardNumberHintSize,
+    this.cardNumberHintText,
+
+    this.cardNumberTitleColor,
+    this.cardNumberTitleSize,
+    this.cardNumberTitleText,
+    //expiry date
+    this.expireDateColor,
+    this.expireDateSize,
+    
+    this.expireDateHintColor,
+    this.expireDateHintSize,
+    this.expireDateHintText,
+
+    this.expireDateTitleColor,
+    this.expireDateTitleSize,
+    this.expireDateTitleText,
+    //CVC/CVV
+    this.cvcCvvColor,
+    this.cvcCvvSize,
+
+    this.cvcCvvHintColor,
+    this.cvcCvvHintSize,
+    this.cvcCvvHintText,
+
+    this.cvcCvvTitleColor,
+    this.cvcCvvTitleSize,
+    this.cvcCvvTitleText,
+
+    //cardholder name
+    this.cardholderColor,
+    this.cardholderSize,
+    
+    this.cardholderHintColor,
+    this.cardholderHintSize,
+    this.cardholderHintText,
+
+    this.cardholderTitleColor,
+    this.cardholderTitleSize,
+    this.cardholderTitleText,
+  );
+  bool isLoading = false;
+  bool isShowWebview = false;
+  bool isSaveCard = false;
+  String urlLink = '';
+  String resultUrl = '';
+  String token = '';
+  String saveCardToken = '';
+  //List<SaveCardModel> saveCards = [];
+  void setIsLoading(value) {
+    isLoading = value;
+    notifyListeners();
+  }
+
+  void setIsShowWebview(value) {
+    isShowWebview = value;
+    notifyListeners();
+  }
+
+  void setIsSaveCard(value) {
+    isSaveCard = value;
+    notifyListeners();
+  }
+
+  void setUrlLink(value) {
+    urlLink = value;
+    notifyListeners();
+  }
+
+  void setResultUrl(value) {
+    resultUrl = value;
+    notifyListeners();
+  }
+
+  void setToken(value) {
+    token = value;
+    notifyListeners();
+  }
+
+  void setSaveCardToken(value) {
+    saveCardToken = value;
+    notifyListeners();
+  }
+
+}
