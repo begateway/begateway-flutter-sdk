@@ -24,6 +24,7 @@ import '../utils/form_validation.dart';
 import '../widgets/apple_pay_button.dart';
 import '../widgets/google_pay_button.dart';
 import '../widgets/nfc.dart';
+import '../widgets/secure_info_widget.dart';
 //import '../widgets/samsung_pay_button.dart';
 
 class CardPaymentForm extends StatefulWidget {
@@ -219,46 +220,142 @@ class CardPaymentFormState extends State<CardPaymentForm> {
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
     final lang = appState.language.toString();
+
     //cardNumber
     final cardNumberColor = appState.cardNumberColor != null
         ? Color(appState.cardNumberColor!)
         : null;
+    final cardNumberHintHide = appState.cardNumberHintHide ?? false;
+    final cardNumberTitleHide = appState.cardNumberTitleHide ?? false;
     final cardNumberSize = appState.cardNumberSize;
-
     final cardNumberHintColor = appState.cardNumberHintColor != null
         ? Color(appState.cardNumberHintColor!)
         : null;
     final cardNumberHintSize = appState.cardNumberHintSize;
-    final cardNumberHintText = appState.cardNumberHintText ??
-        findTranslation(lang, "begateway_form_hint_card_number");
-
+    final cardNumberHintText = cardNumberHintHide
+        ? null
+        : (appState.cardNumberHintText ??
+            findTranslation(lang, "begateway_form_hint_card_number"));
     final cardNumberTitleColor = appState.cardNumberTitleColor;
     final numberTitleColor =
         cardNumberTitleColor != null ? Color(cardNumberTitleColor) : null;
     final cardNumberTitleSize = appState.cardNumberTitleSize;
-    final cardNumberTitleText = appState.cardNumberTitleText ??
-        findTranslation(lang, "begateway_form_hint_card_number");
+    final cardNumberTitleText = cardNumberTitleHide
+        ? null
+        : (appState.cardNumberTitleText ??
+            findTranslation(lang, "begateway_form_hint_card_number"));
 
     //cardExpire
+    final expireDateHintHide = appState.expireDateHintHide ?? false;
+    final expireDateTitleHide = appState.expireDateTitleHide ?? false;
     final expireDateColor = appState.expireDateColor != null
         ? Color(appState.expireDateColor!)
         : null;
     final expireDateSize = appState.expireDateSize;
-
     final expireDateHintColor = appState.expireDateHintColor != null
         ? Color(appState.expireDateHintColor!)
         : null;
     final expireDateHintSize = appState.expireDateHintSize;
-    final expireDateHintText = appState.expireDateHintText ??
-        findTranslation(lang, "begateway_form_hint_expiration");
-
-    final expireDateTitleColor = appState.expireDateTitleColor;
-
-    final expireTitleColor =
-        expireDateTitleColor != null ? Color(expireDateTitleColor) : null;
+    final expireDateHintText = expireDateHintHide
+        ? null
+        : (appState.expireDateHintText ??
+            findTranslation(lang, "begateway_form_hint_expiration"));
+    final expireTitleColor = appState.expireDateTitleColor != null
+        ? Color(appState.expireDateTitleColor!)
+        : null;
     final expireDateTitleSize = appState.expireDateTitleSize;
-    final expireDateTitleText = appState.expireDateTitleText ??
-        findTranslation(lang, "begateway_form_hint_expiration");
+    final expireDateTitleText = expireDateTitleHide
+        ? null
+        : (appState.expireDateTitleText ??
+            findTranslation(lang, "begateway_form_hint_expiration"));
+
+    //CVV
+    final cvcCvvHintHide = appState.cvcCvvHintHide ?? false;
+    final cvcCvvTitleHide = appState.cvcCvvTitleHide ?? false;
+    final cvvColor =
+        appState.cvcCvvColor != null ? Color(appState.cvcCvvColor!) : null;
+    final cvvSize = appState.cvcCvvSize;
+    final cvvHintColor = appState.cvcCvvHintColor != null
+        ? Color(appState.cvcCvvHintColor!)
+        : null;
+    final cvvHintSize = appState.cvcCvvHintSize;
+    final cvvHintText = cvcCvvHintHide
+        ? null
+        : (appState.cvcCvvHintText ?? findTranslation(lang, "begateway_cvv"));
+    final cvvTitleColor = appState.cvcCvvTitleColor != null
+        ? Color(appState.cvcCvvTitleColor!)
+        : null;
+    final cvvTitleSize = appState.cvcCvvTitleSize;
+    final cvvTitleText = cvcCvvTitleHide
+        ? null
+        : (appState.cvcCvvTitleText ?? findTranslation(lang, "begateway_cvv"));
+    final cvcHideText = appState.cvcHideText ?? false;
+
+    //cardholder
+    final cardholderHintHide = appState.cardholderHintHide ?? false;
+    final cardholderTitleHide = appState.cardholderTitleHide ?? false;
+    final cardholderColor = appState.cardholderColor != null
+        ? Color(appState.cardholderColor!)
+        : null;
+    final cardholderSize = appState.cardholderSize;
+    final cardholderHintColor = appState.cardholderHintColor != null
+        ? Color(appState.cardholderHintColor!)
+        : null;
+    final cardholderHintSize = appState.cardholderHintSize;
+    final cardholderHintText = cardholderHintHide
+        ? null
+        : (appState.cardholderHintText ??
+            findTranslation(lang, "begateway_form_hint_cardholder_name"));
+    final cardholderTitleColor = appState.cardholderTitleColor != null
+        ? Color(appState.cardholderTitleColor!)
+        : null;
+    final cardholderTitleSize = appState.cardholderTitleSize;
+    final cardholderTitleText = cardholderTitleHide
+        ? null
+        : (appState.cardholderTitleText ??
+            findTranslation(lang, "begateway_form_hint_cardholder_name"));
+
+    //border
+    final borderColor = appState.borderColor != null
+        ? Color(appState.borderColor!)
+        : Colors.grey;
+    final borderFocusColor = appState.borderFocusColor != null
+        ? Color(appState.borderFocusColor!)
+        : const Color(0xFF3090ed);
+    final borderWidth =
+        appState.borderWidth != null ? appState.borderWidth! : 1.0;
+    final borderFocusWidth =
+        appState.borderFocusWidth != null ? appState.borderFocusWidth! : 2.0;
+
+    final errorBorderColor = appState.errorBorderColor != null
+        ? Color(appState.errorBorderColor!)
+        : const Color(0xFFcd3637);
+    final errorBorderWidth =
+        appState.errorBorderWidth != null ? appState.errorBorderWidth! : 1.0;
+    final errorBorderFocusColor = appState.errorBorderFocusColor != null
+        ? Color(appState.errorBorderFocusColor!)
+        : const Color(0xFFcd3637);
+    final errorBorderFocusWidth = appState.borderFocusWidth != null
+        ? appState.errorBorderFocusWidth!
+        : 2.0;
+    final errorTextColor = appState.errorTextColor != null
+        ? Color(appState.errorTextColor!)
+        : const Color(0xFFcd3637);
+    final errorTextHide = appState.errorTextHide ?? false;
+
+    final errorTextSize = appState.errorTextSize;
+
+    final errorCardNumberText =
+        appState.errorCardNumberText ?? _cardNumberError;
+
+    final errorExpireDateText =
+        appState.errorExpireDateText ?? _expiryDateError;
+
+    final errorCvcCvvText = appState.errorCvcCvvText ?? _cvvError;
+
+    final errorCardholderText =
+        appState.errorCardholderText ?? _holderNameError;
+
     return GestureDetector(
         onTap: () {
           FocusScope.of(context)
@@ -314,7 +411,6 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                               ),
                               Text(findTranslation(lang, "or_use_a_card")),
                               const SizedBox(height: 28),
-
                               TextFormField(
                                 controller: _cardNumberController,
                                 focusNode: _cardNumberFocusNode,
@@ -323,63 +419,86 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                   color: cardNumberColor,
                                 ),
                                 decoration: InputDecoration(
-                                  labelText: _cardNumberFocusNode.hasFocus
-                                      ? cardNumberTitleText
-                                      : cardNumberHintText,
-                                  labelStyle: _cardNumberFocusNode.hasFocus
-                                      ? TextStyle(
-                                          color: cardNumberHintColor,
-                                          fontSize: cardNumberHintSize,
-                                        )
-                                      : TextStyle(
-                                          color: numberTitleColor,
-                                          fontSize: cardNumberTitleSize,
+                                    labelText: _cardNumberFocusNode.hasFocus
+                                        ? cardNumberTitleText
+                                        : cardNumberHintText,
+                                    labelStyle: !_cardNumberFocusNode.hasFocus
+                                        ? TextStyle(
+                                            color: cardNumberHintColor,
+                                            fontSize: cardNumberHintSize,
+                                          )
+                                        : TextStyle(
+                                            color: _cardNumberError.isEmpty
+                                                ? numberTitleColor
+                                                : errorTextColor,
+                                            fontSize: cardNumberTitleSize,
+                                          ),
+                                    border: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                    ),
+                                    suffixIcon: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        findCardBrand(_cardNumberController
+                                                            .text)
+                                                        .name !=
+                                                    '' &&
+                                                _cardNumberController
+                                                        .text.length >=
+                                                    17
+                                            ? SvgPicture.asset(
+                                                'packages/begateway_flutter_sdk/assets/svg/${findCardBrand(_cardNumberController.text).name}.svg',
+                                              )
+                                            : const Text(''),
+                                        IconButton(
+                                          icon: SvgPicture.asset(
+                                            'packages/begateway_flutter_sdk/assets/svg/scanner.svg',
+                                          ),
+                                          onPressed: () {
+                                            requestCameraPermission();
+                                          },
                                         ),
-                                  border: const OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                  suffixIcon: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      findCardBrand(_cardNumberController.text)
-                                                      .name !=
-                                                  '' &&
-                                              _cardNumberController
-                                                      .text.length >=
-                                                  17
-                                          ? SvgPicture.asset(
-                                              'packages/begateway_flutter_sdk/assets/svg/${findCardBrand(_cardNumberController.text).name}.svg',
-                                            )
-                                          : const Text(''),
-                                      IconButton(
-                                        icon: SvgPicture.asset(
-                                          'packages/begateway_flutter_sdk/assets/svg/scanner.svg',
-                                        ),
-                                        onPressed: () {
-                                          
-                                          requestCameraPermission();
-                                        },
+                                        if (Platform.isAndroid) const Nfc()
+                                      ],
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      // Customize unfocused border
+                                      borderSide: BorderSide(
+                                          color: borderColor,
+                                          width: borderWidth),
+                                      // Set unfocused border color
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color:
+                                            errorBorderColor, // Change the border color for errors
+                                        width:
+                                            errorBorderWidth, // Change the border width for errors
                                       ),
-                                      if (Platform.isAndroid) const Nfc()
-                                    ],
-                                  ),
-                                  enabledBorder: const OutlineInputBorder(
-                                    // Customize unfocused border
-                                    borderSide: BorderSide(
-                                        color: Colors
-                                            .grey), // Set unfocused border color
-                                  ),
-                                  focusedBorder: const OutlineInputBorder(
-                                    // Customize focused border
-                                    borderSide: BorderSide(
-                                        width: 2,
-                                        color: Colors
-                                            .blue), // Set focused border color
-                                  ),
-                                  errorText: _cardNumberError.isNotEmpty
-                                      ? _cardNumberError
-                                      : null,
-                                ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      // Customize focused border
+                                      borderSide: BorderSide(
+                                          width: borderFocusWidth,
+                                          color:
+                                              borderFocusColor), // Set focused border color
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      // Customize focused border
+                                      borderSide: BorderSide(
+                                        width: errorBorderFocusWidth,
+                                        color: errorBorderFocusColor,
+                                      ), // Set focused border color
+                                    ),
+                                    errorText: _cardNumberError.isNotEmpty
+                                        ? errorCardNumberText
+                                        : null,
+                                    errorStyle: TextStyle(
+                                        color: errorTextColor,
+                                        fontSize: !errorTextHide
+                                            ? errorTextSize
+                                            : 0)),
                                 keyboardType: TextInputType.number,
                                 onChanged: (value) {
                                   setState(() {
@@ -402,6 +521,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                               Row(
                                 children: [
                                   Expanded(
+                                    //expire
                                     child: TextFormField(
                                       controller: _expiryDateController,
                                       focusNode: _expiryDateFocusNode,
@@ -412,31 +532,68 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                       inputFormatters: [
                                         LengthLimitingTextInputFormatter(5)
                                       ],
-
                                       decoration: InputDecoration(
-                                        labelText: _expiryDateFocusNode.hasFocus
-                                            ? expireDateTitleText
-                                            : expireDateHintText,
-                                        labelStyle: _expiryDateFocusNode
-                                                .hasFocus
-                                            ? TextStyle(
-                                                color: expireDateHintColor,
-                                                fontSize: expireDateHintSize,
-                                              )
-                                            : TextStyle(
-                                                color: expireTitleColor,
-                                                fontSize: expireDateTitleSize,
-                                              ),
-                                        border: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors
-                                                  .grey), // Set border color// Set border radius
-                                        ),
-                                        errorMaxLines: 2,
-                                        errorText: _expiryDateError.isNotEmpty
-                                            ? _expiryDateError
-                                            : null,
-                                      ),
+                                          labelText:
+                                              _expiryDateFocusNode.hasFocus
+                                                  ? expireDateTitleText
+                                                  : expireDateHintText,
+                                          labelStyle: !_expiryDateFocusNode
+                                                  .hasFocus
+                                              ? TextStyle(
+                                                  color: expireDateHintColor,
+                                                  fontSize: expireDateHintSize,
+                                                )
+                                              : TextStyle(
+                                                  color:
+                                                      _expiryDateError.isEmpty
+                                                          ? expireTitleColor
+                                                          : errorTextColor,
+                                                  fontSize: expireDateTitleSize,
+                                                ),
+                                          border: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors
+                                                    .grey), // Set border color// Set border radius
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            // Customize unfocused border
+                                            borderSide: BorderSide(
+                                                color: borderColor,
+                                                width: borderWidth),
+                                            // Set unfocused border color
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  errorBorderColor, // Change the border color for errors
+                                              width:
+                                                  errorBorderWidth, // Change the border width for errors
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            // Customize focused border
+                                            borderSide: BorderSide(
+                                                width: borderFocusWidth,
+                                                color:
+                                                    borderFocusColor), // Set focused border color
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            // Customize focused border
+                                            borderSide: BorderSide(
+                                              width: errorBorderFocusWidth,
+                                              color: errorBorderFocusColor,
+                                            ), // Set focused border color
+                                          ),
+                                          errorMaxLines: 2,
+                                          errorText: _expiryDateError.isNotEmpty
+                                              ? errorExpireDateText
+                                              : null,
+                                          errorStyle: TextStyle(
+                                              color: errorTextColor,
+                                              fontSize: !errorTextHide
+                                                  ? errorTextSize
+                                                  : 0)),
                                       keyboardType: TextInputType.number,
                                       //obscureText: true,
                                       onTap: () => {
@@ -452,7 +609,6 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                         setState(() {
                                           isExpiry = false;
                                           _expiryDateError = '';
-
                                           changeExpiryDate(value);
                                         });
                                       },
@@ -460,22 +616,74 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                   ),
                                   const SizedBox(width: 16.0),
                                   Expanded(
+                                    ///cvv
                                     child: TextFormField(
                                       controller: _cvvController,
                                       focusNode: _cvvFocusNode,
-                                      decoration: InputDecoration(
-                                        labelText: findTranslation(
-                                            lang, "begateway_cvv"),
-                                        border: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors
-                                                  .grey), // Set border color// Set border radius
-                                        ),
-                                        errorMaxLines: 2,
-                                        errorText: _cvvError.isNotEmpty
-                                            ? _cvvError
-                                            : null,
+                                      obscureText: cvcHideText,
+                                      style: TextStyle(
+                                        fontSize: cvvSize,
+                                        color: cvvColor,
                                       ),
+                                      decoration: InputDecoration(
+                                          labelText: _cvvFocusNode.hasFocus
+                                              ? cvvTitleText
+                                              : cvvHintText,
+                                          labelStyle: !_cvvFocusNode.hasFocus
+                                              ? TextStyle(
+                                                  color: cvvHintColor,
+                                                  fontSize: cvvHintSize,
+                                                )
+                                              : TextStyle(
+                                                  color: _cvvError.isEmpty
+                                                      ? cvvTitleColor
+                                                      : errorTextColor,
+                                                  fontSize: cvvTitleSize,
+                                                ),
+                                          border: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors
+                                                    .grey), // Set border color// Set border radius
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            // Customize unfocused border
+                                            borderSide: BorderSide(
+                                                color: borderColor,
+                                                width: borderWidth),
+                                            // Set unfocused border color
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  errorBorderColor, // Change the border color for errors
+                                              width:
+                                                  errorBorderWidth, // Change the border width for errors
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            // Customize focused border
+                                            borderSide: BorderSide(
+                                                width: borderFocusWidth,
+                                                color:
+                                                    borderFocusColor), // Set focused border color
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            // Customize focused border
+                                            borderSide: BorderSide(
+                                              width: errorBorderFocusWidth,
+                                              color: errorBorderFocusColor,
+                                            ), // Set focused border color
+                                          ),
+                                          errorMaxLines: 2,
+                                          errorText: _cvvError.isNotEmpty
+                                              ? errorCvcCvvText
+                                              : null,
+                                          errorStyle: TextStyle(
+                                              color: errorTextColor,
+                                              fontSize: !errorTextHide
+                                                  ? errorTextSize
+                                                  : 0)),
                                       keyboardType: TextInputType.number,
                                       onTap: () => {
                                         setState(() {
@@ -501,21 +709,72 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                 ],
                               ),
                               const SizedBox(height: 16.0),
+
+                              ///holder
                               TextFormField(
                                 controller: _holderNameController,
                                 focusNode: _holderNameFocusNode,
-                                decoration: InputDecoration(
-                                  labelText: findTranslation(lang,
-                                      "begateway_form_hint_cardholder_name"),
-                                  border: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors
-                                            .grey), // Set border color// Set border radius
-                                  ),
-                                  errorText: _holderNameError.isNotEmpty
-                                      ? _holderNameError
-                                      : null,
+                                style: TextStyle(
+                                  fontSize: cardholderSize,
+                                  color: cardholderColor,
                                 ),
+                                decoration: InputDecoration(
+                                    labelText: _holderNameFocusNode.hasFocus
+                                        ? cardholderTitleText
+                                        : cardholderHintText,
+                                    labelStyle: !_holderNameFocusNode.hasFocus
+                                        ? TextStyle(
+                                            color: cardholderHintColor,
+                                            fontSize: cardholderHintSize,
+                                          )
+                                        : TextStyle(
+                                            color: _holderNameError.isEmpty
+                                                ? cardholderTitleColor
+                                                : errorTextColor,
+                                            fontSize: cardholderTitleSize,
+                                          ),
+                                    border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors
+                                              .grey), // Set border color// Set border radius
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      // Customize unfocused border
+                                      borderSide: BorderSide(
+                                          color: borderColor,
+                                          width: borderWidth),
+                                      // Set unfocused border color
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      // Customize focused border
+                                      borderSide: BorderSide(
+                                          width: borderFocusWidth,
+                                          color:
+                                              borderFocusColor), // Set focused border color
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      // Customize focused border
+                                      borderSide: BorderSide(
+                                        width: errorBorderFocusWidth,
+                                        color: errorBorderFocusColor,
+                                      ), // Set focused border color
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color:
+                                            errorBorderColor, // Change the border color for errors
+                                        width:
+                                            errorBorderWidth, // Change the border width for errors
+                                      ),
+                                    ),
+                                    errorText: _holderNameError.isNotEmpty
+                                        ? errorCardholderText
+                                        : null,
+                                    errorStyle: TextStyle(
+                                        color: errorTextColor,
+                                        fontSize: !errorTextHide
+                                            ? errorTextSize
+                                            : 0)),
                                 keyboardType: TextInputType.name,
                                 textCapitalization:
                                     TextCapitalization.characters,
@@ -587,6 +846,15 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                   ),
                                 ),
                               ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              Align(
+                                  alignment: Alignment.center,
+                                  child: SecureInfoWidget(
+                                    language: appState.language.toString(),
+                                    onTap: () {},
+                                  ))
                             ],
                           ),
                         ),

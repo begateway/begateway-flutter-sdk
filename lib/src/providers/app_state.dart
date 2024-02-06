@@ -6,7 +6,7 @@ class AppState extends ChangeNotifier {
   final String publicKey;
   final bool test;
   final String transactionType;
-  final String amount;
+  final int amount;
   final String currency;
   final String description;
   final String language;
@@ -18,7 +18,7 @@ class AppState extends ChangeNotifier {
   final String applePayConfig;
   final String googlePayConfig;
   final List<Map<String, dynamic>> paymentItems;
-   //optional parameters for customizing styles
+  //optional parameters for customizing styles
   //card number
   final int? cardNumberColor;
   final double? cardNumberSize;
@@ -30,10 +30,13 @@ class AppState extends ChangeNotifier {
   final int? cardNumberTitleColor;
   final double? cardNumberTitleSize;
   final String? cardNumberTitleText;
+
+  final bool? cardNumberHintHide;
+  final bool? cardNumberTitleHide;
   //expiry date
   final int? expireDateColor;
   final double? expireDateSize;
-  
+
   final int? expireDateHintColor;
   final double? expireDateHintSize;
   final String? expireDateHintText;
@@ -41,10 +44,13 @@ class AppState extends ChangeNotifier {
   final int? expireDateTitleColor;
   final double? expireDateTitleSize;
   final String? expireDateTitleText;
+
+  final bool? expireDateHintHide;
+  final bool? expireDateTitleHide;
   //CVC/CVV
   final int? cvcCvvColor;
   final double? cvcCvvSize;
-  
+
   final int? cvcCvvHintColor;
   final double? cvcCvvHintSize;
   final String? cvcCvvHintText;
@@ -52,10 +58,15 @@ class AppState extends ChangeNotifier {
   final int? cvcCvvTitleColor;
   final double? cvcCvvTitleSize;
   final String? cvcCvvTitleText;
+
+  final bool? cvcHideText;
+
+  final bool? cvcCvvHintHide;
+  final bool? cvcCvvTitleHide;
   //cardholder name
   final int? cardholderColor;
   final double? cardholderSize;
-  
+
   final int? cardholderHintColor;
   final double? cardholderHintSize;
   final String? cardholderHintText;
@@ -63,7 +74,26 @@ class AppState extends ChangeNotifier {
   final int? cardholderTitleColor;
   final double? cardholderTitleSize;
   final String? cardholderTitleText;
-  
+
+  final bool? cardholderHintHide;
+  final bool? cardholderTitleHide;
+  //border
+  final int? borderColor;
+  final int? borderFocusColor;
+  final double? borderWidth;
+  final double? borderFocusWidth;
+  //error
+  final int? errorBorderColor;
+  final double? errorBorderWidth;
+  final int? errorBorderFocusColor;
+  final double? errorBorderFocusWidth;
+  final int? errorTextColor;
+  final double? errorTextSize;
+  final String? errorCardNumberText;
+  final String? errorExpireDateText;
+  final String? errorCvcCvvText;
+  final String? errorCardholderText;
+   final bool? errorTextHide;
 
   AppState(
     this.updateIsBegateway,
@@ -87,48 +117,67 @@ class AppState extends ChangeNotifier {
     //card number
     this.cardNumberColor,
     this.cardNumberSize,
-
     this.cardNumberHintColor,
     this.cardNumberHintSize,
     this.cardNumberHintText,
-
     this.cardNumberTitleColor,
     this.cardNumberTitleSize,
     this.cardNumberTitleText,
+    this.cardNumberHintHide,
+    this.cardNumberTitleHide,
     //expiry date
     this.expireDateColor,
     this.expireDateSize,
-    
     this.expireDateHintColor,
     this.expireDateHintSize,
     this.expireDateHintText,
-
     this.expireDateTitleColor,
     this.expireDateTitleSize,
     this.expireDateTitleText,
+    this.expireDateHintHide,
+    this.expireDateTitleHide,
     //CVC/CVV
     this.cvcCvvColor,
     this.cvcCvvSize,
-
     this.cvcCvvHintColor,
     this.cvcCvvHintSize,
     this.cvcCvvHintText,
-
     this.cvcCvvTitleColor,
     this.cvcCvvTitleSize,
     this.cvcCvvTitleText,
+    this.cvcHideText,
+    this.cvcCvvHintHide,
+    this.cvcCvvTitleHide,
 
     //cardholder name
     this.cardholderColor,
     this.cardholderSize,
-    
     this.cardholderHintColor,
     this.cardholderHintSize,
     this.cardholderHintText,
-
     this.cardholderTitleColor,
     this.cardholderTitleSize,
     this.cardholderTitleText,
+
+    this.cardholderHintHide,
+    this.cardholderTitleHide,
+    //border
+    this.borderColor,
+    this.borderFocusColor,
+    this.borderWidth,
+    this.borderFocusWidth,
+    //error
+    this.errorBorderColor,
+    this.errorBorderWidth,
+    this.errorBorderFocusColor,
+    this.errorBorderFocusWidth,
+    this.errorTextColor,
+    this.errorTextSize,
+    this.errorCardNumberText,
+    this.errorExpireDateText,
+    this.errorCvcCvvText,
+    this.errorCardholderText,
+    this.errorTextHide,
   );
   bool isLoading = false;
   bool isShowWebview = false;
@@ -172,5 +221,4 @@ class AppState extends ChangeNotifier {
     saveCardToken = value;
     notifyListeners();
   }
-
 }

@@ -119,15 +119,13 @@ class ChoosePayState extends State<ChoosePay> {
                             //     },
                             //   ),
                             const SizedBox(
-                              height: 32,
+                              height: 16,
                             ),
                             Align(
                                 alignment: Alignment.center,
                                 child: SecureInfoWidget(
                                   language: appState.language.toString(),
-                                  onTap: () {
-                                    print('bePaid');
-                                  },
+                                  onTap: () {},
                                 ))
                           ],
                         ),

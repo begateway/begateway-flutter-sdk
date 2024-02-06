@@ -34,7 +34,6 @@ class _WebViewAppState extends State<WebViewApp> {
           onNavigationRequest: (NavigationRequest request) {
             if (request.url.startsWith(
                 (appState.resultUrl))) {
-              print('1');
               appState.setIsShowWebview(false);
               fetchPayCheck(appState);
               return NavigationDecision.prevent;

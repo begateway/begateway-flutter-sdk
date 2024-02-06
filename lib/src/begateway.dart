@@ -36,46 +36,66 @@ class Begateway extends StatefulWidget {
     this.cardNumberTitleColor,
     this.cardNumberTitleSize,
     this.cardNumberTitleText,
+    this.cardNumberHintHide,
+    this.cardNumberTitleHide,
     //expiry date
     this.expireDateColor,
     this.expireDateSize,
-
     this.expireDateHintColor,
     this.expireDateHintSize,
     this.expireDateHintText,
-
     this.expireDateTitleColor,
     this.expireDateTitleSize,
     this.expireDateTitleText,
+    this.expireDateHintHide,
+    this.expireDateTitleHide,
     //CVC/CVV
     this.cvcCvvColor,
     this.cvcCvvSize,
-   
     this.cvcCvvHintColor,
     this.cvcCvvHintSize,
     this.cvcCvvHintText,
-
     this.cvcCvvTitleColor,
     this.cvcCvvTitleSize,
     this.cvcCvvTitleText,
+    this.cvcHideText,
+    this.cvcCvvHintHide,
+    this.cvcCvvTitleHide,
     //cardholder name
     this.cardholderColor,
     this.cardholderSize,
-   
     this.cardholderHintColor,
     this.cardholderHintSize,
     this.cardholderHintText,
-
     this.cardholderTitleColor,
     this.cardholderTitleSize,
     this.cardholderTitleText,
+    this.cardholderHintHide,
+    this.cardholderTitleHide,
+    //border
+    this.borderColor,
+    this.borderFocusColor,
+    this.borderWidth,
+    this.borderFocusWidth,
+    //error
+    this.errorBorderColor,
+    this.errorBorderWidth,
+    this.errorBorderFocusColor,
+    this.errorBorderFocusWidth,
+    this.errorTextColor,
+    this.errorTextSize,
+    this.errorCardNumberText,
+    this.errorExpireDateText,
+    this.errorCvcCvvText,
+    this.errorCardholderText,
+    this.errorTextHide,
   });
   final void Function(bool) showIsBegateway;
   final void Function(Map<String, dynamic>) getAnswearFromBegateway;
   final String publicKey;
   final bool test;
   final String transactionType;
-  final String amount;
+  final int amount;
   final String currency;
   final String description;
   final String language;
@@ -99,10 +119,13 @@ class Begateway extends StatefulWidget {
   final int? cardNumberTitleColor;
   final double? cardNumberTitleSize;
   final String? cardNumberTitleText;
+
+  final bool? cardNumberHintHide;
+  final bool? cardNumberTitleHide;
   //expiry date
   final int? expireDateColor;
   final double? expireDateSize;
-  
+
   final int? expireDateHintColor;
   final double? expireDateHintSize;
   final String? expireDateHintText;
@@ -110,6 +133,9 @@ class Begateway extends StatefulWidget {
   final int? expireDateTitleColor;
   final double? expireDateTitleSize;
   final String? expireDateTitleText;
+
+  final bool? expireDateHintHide;
+  final bool? expireDateTitleHide;
   //CVC/CVV
   final int? cvcCvvColor;
   final double? cvcCvvSize;
@@ -121,18 +147,41 @@ class Begateway extends StatefulWidget {
   final int? cvcCvvTitleColor;
   final double? cvcCvvTitleSize;
   final String? cvcCvvTitleText;
+
+  final bool? cvcHideText;
+
+  final bool? cvcCvvHintHide;
+  final bool? cvcCvvTitleHide;
   //cardholder name
   final int? cardholderColor;
   final double? cardholderSize;
-  
   final int? cardholderHintColor;
   final double? cardholderHintSize;
   final String? cardholderHintText;
-
-
   final int? cardholderTitleColor;
   final double? cardholderTitleSize;
   final String? cardholderTitleText;
+
+  final bool? cardholderHintHide;
+  final bool? cardholderTitleHide;
+  //border
+  final int? borderColor;
+  final int? borderFocusColor;
+  final double? borderWidth;
+  final double? borderFocusWidth;
+  //error
+  final int? errorBorderColor;
+  final double? errorBorderWidth;
+  final int? errorBorderFocusColor;
+  final double? errorBorderFocusWidth;
+
+  final int? errorTextColor;
+  final double? errorTextSize;
+  final String? errorCardNumberText;
+  final String? errorExpireDateText;
+  final String? errorCvcCvvText;
+  final String? errorCardholderText;
+  final bool? errorTextHide;
 
   @override
   BegatewayContainerState createState() => BegatewayContainerState();
@@ -195,10 +244,12 @@ class BegatewayContainerState extends State<Begateway> {
               widget.cardNumberTitleColor,
               widget.cardNumberTitleSize,
               widget.cardNumberTitleText,
+              widget.cardNumberHintHide,
+              widget.cardNumberTitleHide,
               //expiry date
               widget.expireDateColor,
               widget.expireDateSize,
-             
+
               widget.expireDateHintColor,
               widget.expireDateHintSize,
               widget.expireDateHintText,
@@ -206,10 +257,13 @@ class BegatewayContainerState extends State<Begateway> {
               widget.expireDateTitleColor,
               widget.expireDateTitleSize,
               widget.expireDateTitleText,
+
+              widget.expireDateHintHide,
+              widget.expireDateTitleHide,
               //CVC/CVV
               widget.cvcCvvColor,
               widget.cvcCvvSize,
-             
+
               widget.cvcCvvHintColor,
               widget.cvcCvvHintSize,
               widget.cvcCvvHintText,
@@ -217,10 +271,14 @@ class BegatewayContainerState extends State<Begateway> {
               widget.cvcCvvTitleColor,
               widget.cvcCvvTitleSize,
               widget.cvcCvvTitleText,
+              widget.cvcHideText,
+
+              widget.cvcCvvHintHide,
+              widget.cvcCvvTitleHide,
               //cardholder name
-               widget.cardholderColor,
+              widget.cardholderColor,
               widget.cardholderSize,
-             
+
               widget.cardholderHintColor,
               widget.cardholderHintSize,
               widget.cardholderHintText,
@@ -228,6 +286,26 @@ class BegatewayContainerState extends State<Begateway> {
               widget.cardholderTitleColor,
               widget.cardholderTitleSize,
               widget.cardholderTitleText,
+
+              widget.cardholderHintHide,
+              widget.cardholderTitleHide,
+              //border
+              widget.borderColor,
+              widget.borderFocusColor,
+              widget.borderWidth,
+              widget.borderFocusWidth,
+              //error
+              widget.errorBorderColor,
+              widget.errorBorderWidth,
+              widget.errorBorderFocusColor,
+              widget.errorBorderFocusWidth,
+              widget.errorTextColor,
+              widget.errorTextSize,
+              widget.errorCardNumberText,
+              widget.errorExpireDateText,
+              widget.errorCvcCvvText,
+              widget.errorCardholderText,
+              widget.errorTextHide,
             ),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

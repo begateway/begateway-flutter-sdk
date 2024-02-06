@@ -11,7 +11,6 @@ class Nfc extends StatelessWidget {
         icon: const Icon(Icons.nfc),
         color: const Color(0xFF929DA9),
         onPressed: () {
-          print('nfc');
         });
   }
 }

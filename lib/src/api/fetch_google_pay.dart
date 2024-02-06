@@ -14,7 +14,7 @@ Future<void> fetchGooglePay(
   var token = '';
   if (appState.publicKey!.length > 64) {
     token = await fetchPayToken(appState);
-    print('token: $token');
+    debugPrint('token: $token');
     appState.setToken(token);
   } else {
     token = appState.token;
@@ -79,8 +79,8 @@ Future<void> fetchGooglePay(
     },
     "token": token,
     "customer": {
-      "first_name": appState.holder?.split(' ')[0],
-      "last_name": appState.holder?.split(' ')[1],
+      "first_name": appState.holder.split(' ')[0],
+      "last_name": appState.holder.split(' ')[1],
       "address": "",
       "country": appState.customerCountry,
       "city": "",

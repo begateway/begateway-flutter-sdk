@@ -3,9 +3,11 @@ import 'dart:convert';
 
 import 'package:begateway_flutter_sdk/src/constants/constants.dart';
 import 'package:begateway_flutter_sdk/src/providers/app_state.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> fetchPayCheck(
   AppState appState,
@@ -25,9 +27,12 @@ Future<void> fetchPayCheck(
     if (status == 'successful' || status == 'failed' || status == 'error') {
       // Successful request
       Map<String, dynamic> answear = await json.decode(response.body);
+      String nameCompany = answear["checkout"]["company"]["name"];
       appState.updateIsBegateway(false);
       appState.answearBegateway(answear);
       appState.setIsLoading(false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('nameCompany', nameCompany);
     } else {
       Timer.periodic(const Duration(seconds: 3), (Timer timer) {
         fetchPayCheck(appState);
