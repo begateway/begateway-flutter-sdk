@@ -28,7 +28,8 @@ class _MyAppState extends State<MyApp> {
   void getAnswearFromBegateway(Map<String, dynamic> answerFromServer) {
     setState(() {
       answear = answerFromServer;
-      debugPrint('Answear from: ${answerFromServer.toString()}');
+      debugPrint(
+          'Answear from: ${answerFromServer.toString()}');
     });
   }
 
@@ -59,7 +60,6 @@ class _MyAppState extends State<MyApp> {
               paymentItems: products,
 
               //optional parameters for customizing styles
-
               // cardNumberColor: 0xFF1d1d21,
               // cardNumberSize: 14,
               // cardNumberHintColor: 0xFF787982,
@@ -160,9 +160,15 @@ class _MyAppState extends State<MyApp> {
                       },
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.orange),
+                            WidgetStateProperty.all<Color>(Colors.orange),
                       ),
-                      child: const Text('Buy Now'),
+                      child: const Text(
+                        'Buy Now',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
                     ),
                   ),
                 ),

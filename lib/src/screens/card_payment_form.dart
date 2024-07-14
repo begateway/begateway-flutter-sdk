@@ -237,8 +237,9 @@ class CardPaymentFormState extends State<CardPaymentForm> {
         : (appState.cardNumberHintText ??
             findTranslation(lang, "begateway_form_hint_card_number"));
     final cardNumberTitleColor = appState.cardNumberTitleColor;
-    final numberTitleColor =
-        cardNumberTitleColor != null ? Color(cardNumberTitleColor) : null;
+    final numberTitleColor = cardNumberTitleColor != null
+        ? Color(cardNumberTitleColor)
+        : const Color(0xFF3090ed);
     final cardNumberTitleSize = appState.cardNumberTitleSize;
     final cardNumberTitleText = cardNumberTitleHide
         ? null
@@ -262,7 +263,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
             findTranslation(lang, "begateway_form_hint_expiration"));
     final expireTitleColor = appState.expireDateTitleColor != null
         ? Color(appState.expireDateTitleColor!)
-        : null;
+        : const Color(0xFF3090ed);
     final expireDateTitleSize = appState.expireDateTitleSize;
     final expireDateTitleText = expireDateTitleHide
         ? null
@@ -284,7 +285,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
         : (appState.cvcCvvHintText ?? findTranslation(lang, "begateway_cvv"));
     final cvvTitleColor = appState.cvcCvvTitleColor != null
         ? Color(appState.cvcCvvTitleColor!)
-        : null;
+        : const Color(0xFF3090ed);
     final cvvTitleSize = appState.cvcCvvTitleSize;
     final cvvTitleText = cvcCvvTitleHide
         ? null
@@ -308,7 +309,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
             findTranslation(lang, "begateway_form_hint_cardholder_name"));
     final cardholderTitleColor = appState.cardholderTitleColor != null
         ? Color(appState.cardholderTitleColor!)
-        : null;
+        : const Color(0xFF3090ed);
     final cardholderTitleSize = appState.cardholderTitleSize;
     final cardholderTitleText = cardholderTitleHide
         ? null
@@ -412,6 +413,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                               Text(findTranslation(lang, "or_use_a_card")),
                               const SizedBox(height: 28),
                               TextFormField(
+                                cursorColor: Colors.black54,
                                 controller: _cardNumberController,
                                 focusNode: _cardNumberFocusNode,
                                 style: TextStyle(
@@ -523,6 +525,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                   Expanded(
                                     //expire
                                     child: TextFormField(
+                                      cursorColor: Colors.black54,
                                       controller: _expiryDateController,
                                       focusNode: _expiryDateFocusNode,
                                       style: TextStyle(
@@ -618,6 +621,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                   Expanded(
                                     ///cvv
                                     child: TextFormField(
+                                      cursorColor: Colors.black54,
                                       controller: _cvvController,
                                       focusNode: _cvvFocusNode,
                                       obscureText: cvcHideText,
@@ -712,6 +716,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
 
                               ///holder
                               TextFormField(
+                                cursorColor: Colors.black54,
                                 controller: _holderNameController,
                                 focusNode: _holderNameFocusNode,
                                 style: TextStyle(
@@ -820,17 +825,17 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                         }
                                       : null,
                                   style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty
-                                        .resolveWith<Color>(
-                                      (Set<MaterialState> states) {
+                                    backgroundColor:
+                                        WidgetStateProperty.resolveWith<Color>(
+                                      (Set<WidgetState> states) {
                                         if (states
-                                            .contains(MaterialState.pressed)) {
+                                            .contains(WidgetState.pressed)) {
                                           return Theme.of(context)
                                               .colorScheme
                                               .primary
                                               .withOpacity(0.5);
                                         } else if (states
-                                            .contains(MaterialState.disabled)) {
+                                            .contains(WidgetState.disabled)) {
                                           return const Color(0xFF929DA9);
                                         }
                                         return const Color(0xFF0065FF);
