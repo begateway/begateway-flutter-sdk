@@ -213,8 +213,8 @@ class BegatewayContainerState extends State<Begateway> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => AppState(
+    return ChangeNotifierProvider.value(
+        value: AppState(
               widget.showIsBegateway,
               widget.getAnswearFromBegateway,
               widget.publicKey,

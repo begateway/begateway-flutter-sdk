@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../constants/color_constants.dart';
 import '../localization/find_translation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,7 +38,7 @@ class SecureInfoWidget extends StatelessWidget {
             RichText(
               text: TextSpan(
                 text: '${findTranslation(language, "begateway_secure_info")} ',
-                style: const TextStyle(color: Color(0xFF929DA9)),
+                style: TextStyle(color: ColorConstants.grey50Color),
                 children: <TextSpan>[
                   TextSpan(
                     text: nameCompany,

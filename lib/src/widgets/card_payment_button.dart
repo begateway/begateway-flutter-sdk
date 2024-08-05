@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/color_constants.dart';
+
 class CardPaymentButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
@@ -26,9 +28,10 @@ class CardPaymentButton extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           buttonText,
-          style: const TextStyle(
+          style:TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
+            color: ColorConstants.whiteColor,
           ),
         ),
       ),

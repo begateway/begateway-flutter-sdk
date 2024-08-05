@@ -12,7 +12,7 @@ Future<void> fetchGooglePay(
   AppState appState,
 ) async {
   var token = '';
-  if (appState.publicKey!.length > 64) {
+  if (appState.publicKey.length > 64) {
     token = await fetchPayToken(appState);
     debugPrint('token: $token');
     appState.setToken(token);

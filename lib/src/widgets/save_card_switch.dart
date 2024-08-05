@@ -2,6 +2,7 @@ import 'package:begateway_flutter_sdk/src/providers/app_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
+import '../constants/color_constants.dart';
 import '../localization/find_translation.dart';
 
 class SaveCardSwitchRow extends StatelessWidget {
@@ -16,8 +17,8 @@ class SaveCardSwitchRow extends StatelessWidget {
           children: [
         CupertinoSwitch(
           value: appState.isSaveCard,
-          trackColor: const Color(0xFF929DA9),
-          activeColor: const Color(0xFF0065FF),
+          trackColor: ColorConstants.grey50Color,
+          activeColor: ColorConstants.blue50Color,
           onChanged: (value) {
             appState.setIsSaveCard(value);
           },

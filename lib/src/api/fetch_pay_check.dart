@@ -34,12 +34,9 @@ Future<void> fetchPayCheck(
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('nameCompany', nameCompany);
     } else {
-      Timer.periodic(const Duration(seconds: 3), (Timer timer) {
-        fetchPayCheck(appState);
-      });
+       fetchPayCheck(appState);
     }
   } catch (e) {
-    // If Error
     appState.setIsLoading(false);
     debugPrint('Error: $e');
   }

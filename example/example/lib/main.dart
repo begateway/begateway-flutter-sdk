@@ -17,7 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isBegateway = false;
-  Map<String, dynamic> answear = {};
+  Map<String, dynamic> answer = {};
 
   void showIsBegateway(bool newValue) {
     setState(() {
@@ -25,10 +25,11 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void getAnswearFromBegateway(Map<String, dynamic> answerFromServer) {
+  void getAnswerFromBegateway(Map<String, dynamic> answerFromServer) {
     setState(() {
-      answear = answerFromServer;
-      debugPrint('Answear from: ${answerFromServer.toString()}');
+      answer = answerFromServer;
+      debugPrint(
+          'Answer from: ${answerFromServer.toString()}');
     });
   }
 
@@ -40,7 +41,7 @@ class _MyAppState extends State<MyApp> {
           ? Begateway(
               //required parameters
               showIsBegateway: showIsBegateway,
-              getAnswearFromBegateway: getAnswearFromBegateway,
+              getAnswearFromBegateway: getAnswerFromBegateway,
               publicKey:
                   'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1s8MCrSYRgxX768baEW5tpkGEi8BwAWHAaJy1amnbv+nyGF6ponAic4up+FtiRw+LHLYZXx19RVKX8dCoK7vrYFMjb7INhNILzv7XJvPqcPdyYhSoZ88AteRrbHhtxm7V/3MQyzJNPa6Sgam7+y1n0ZVIvoQBlIo9oTxRWGoFWBJ8pK/RDnvzWSQYf5Ru0jU6hMO5GizkWoleDgujUQy/q0RQi27MGcEOcq0TugCuV3jxS3cLIvLRWth24lNAr1ZSGM8W54DwcLYR3ioqtpngi+c8SryUd2eDxRq8+q+p0XuXbG+jr/HKq4d+g1JOQYpvGNUBbN+Mc3djVgyNb6n5wIDAQAB',
               test: true,
@@ -59,7 +60,6 @@ class _MyAppState extends State<MyApp> {
               paymentItems: products,
 
               //optional parameters for customizing styles
-
               // cardNumberColor: 0xFF1d1d21,
               // cardNumberSize: 14,
               // cardNumberHintColor: 0xFF787982,
@@ -131,7 +131,7 @@ class _MyAppState extends State<MyApp> {
               body: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
-                  child: answear.isEmpty
+                  child: answer.isEmpty
                       ? const Center(
                           child: Text(
                             'YOUR PRODUCT 42.99\$',
@@ -141,7 +141,7 @@ class _MyAppState extends State<MyApp> {
                         )
                       : Center(
                           child: Text(
-                            'Status: ${answear["checkout"]["status"].toString()}',
+                            'Status: ${answer["checkout"]["status"].toString()}',
                             style: const TextStyle(fontSize: 24),
                             textAlign: TextAlign.center,
                           ),
@@ -160,9 +160,15 @@ class _MyAppState extends State<MyApp> {
                       },
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.orange),
+                            WidgetStateProperty.all<Color>(Colors.orange),
                       ),
-                      child: const Text('Buy Now'),
+                      child: const Text(
+                        'Buy Now',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
                     ),
                   ),
                 ),

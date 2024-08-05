@@ -14,7 +14,7 @@ Future fetchPayToken(
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     'X-API-Version': '2.1',
-    'Authorization': appState.publicKey!,
+    'Authorization': appState.publicKey,
   };
 
   final requestData = {
