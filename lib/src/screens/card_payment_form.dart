@@ -18,6 +18,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
+import '../constants/color_constants.dart';
 import '../localization/find_translation.dart';
 
 import '../utils/form_validation.dart';
@@ -239,7 +240,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
     final cardNumberTitleColor = appState.cardNumberTitleColor;
     final numberTitleColor = cardNumberTitleColor != null
         ? Color(cardNumberTitleColor)
-        : const Color(0xFF3090ed);
+        : ColorConstants.blueColor;
     final cardNumberTitleSize = appState.cardNumberTitleSize;
     final cardNumberTitleText = cardNumberTitleHide
         ? null
@@ -263,7 +264,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
             findTranslation(lang, "begateway_form_hint_expiration"));
     final expireTitleColor = appState.expireDateTitleColor != null
         ? Color(appState.expireDateTitleColor!)
-        : const Color(0xFF3090ed);
+        : ColorConstants.blueColor;
     final expireDateTitleSize = appState.expireDateTitleSize;
     final expireDateTitleText = expireDateTitleHide
         ? null
@@ -285,7 +286,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
         : (appState.cvcCvvHintText ?? findTranslation(lang, "begateway_cvv"));
     final cvvTitleColor = appState.cvcCvvTitleColor != null
         ? Color(appState.cvcCvvTitleColor!)
-        : const Color(0xFF3090ed);
+        : ColorConstants.blueColor;
     final cvvTitleSize = appState.cvcCvvTitleSize;
     final cvvTitleText = cvcCvvTitleHide
         ? null
@@ -309,7 +310,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
             findTranslation(lang, "begateway_form_hint_cardholder_name"));
     final cardholderTitleColor = appState.cardholderTitleColor != null
         ? Color(appState.cardholderTitleColor!)
-        : const Color(0xFF3090ed);
+        : ColorConstants.blueColor;
     final cardholderTitleSize = appState.cardholderTitleSize;
     final cardholderTitleText = cardholderTitleHide
         ? null
@@ -322,7 +323,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
         : Colors.grey;
     final borderFocusColor = appState.borderFocusColor != null
         ? Color(appState.borderFocusColor!)
-        : const Color(0xFF3090ed);
+        : ColorConstants.blueColor;
     final borderWidth =
         appState.borderWidth != null ? appState.borderWidth! : 1.0;
     final borderFocusWidth =
@@ -330,18 +331,18 @@ class CardPaymentFormState extends State<CardPaymentForm> {
 
     final errorBorderColor = appState.errorBorderColor != null
         ? Color(appState.errorBorderColor!)
-        : const Color(0xFFcd3637);
+        : ColorConstants.redColor;
     final errorBorderWidth =
         appState.errorBorderWidth != null ? appState.errorBorderWidth! : 1.0;
     final errorBorderFocusColor = appState.errorBorderFocusColor != null
         ? Color(appState.errorBorderFocusColor!)
-        : const Color(0xFFcd3637);
+        : ColorConstants.redColor;
     final errorBorderFocusWidth = appState.borderFocusWidth != null
         ? appState.errorBorderFocusWidth!
         : 2.0;
     final errorTextColor = appState.errorTextColor != null
         ? Color(appState.errorTextColor!)
-        : const Color(0xFFcd3637);
+        : ColorConstants.redColor;
     final errorTextHide = appState.errorTextHide ?? false;
 
     final errorTextSize = appState.errorTextSize;
@@ -363,7 +364,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
               .unfocus(); // Remove focus from any active TextField
         },
         child: Scaffold(
-          backgroundColor: const Color(0xFFFFFFFF),
+          backgroundColor: ColorConstants.whiteColor,
           body: SafeArea(
             child: appState.isLoading
                 ? const Center(
@@ -555,8 +556,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                                 ),
                                           border: const OutlineInputBorder(
                                             borderSide: BorderSide(
-                                                color: Colors
-                                                    .grey), // Set border color// Set border radius
+                                                color: Colors.grey), // Set border color// Set border radius
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             // Customize unfocused border
@@ -646,8 +646,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                                 ),
                                           border: const OutlineInputBorder(
                                             borderSide: BorderSide(
-                                                color: Colors
-                                                    .grey), // Set border color// Set border radius
+                                                color: Colors.grey), // Set border color// Set border radius
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             // Customize unfocused border
@@ -740,8 +739,7 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                           ),
                                     border: const OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Colors
-                                              .grey), // Set border color// Set border radius
+                                          color: Colors.grey), // Set border color// Set border radius
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       // Customize unfocused border
@@ -836,18 +834,18 @@ class CardPaymentFormState extends State<CardPaymentForm> {
                                               .withOpacity(0.5);
                                         } else if (states
                                             .contains(WidgetState.disabled)) {
-                                          return const Color(0xFF929DA9);
+                                          return ColorConstants.grey50Color;
                                         }
-                                        return const Color(0xFF0065FF);
+                                        return ColorConstants.blue50Color;
                                       },
                                     ),
                                   ),
                                   child: Text(
                                     appState.buttonText.toString(),
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
-                                        color: Color(0xFFFFFFFF)),
+                                        color: ColorConstants.whiteColor),
                                   ),
                                 ),
                               ),

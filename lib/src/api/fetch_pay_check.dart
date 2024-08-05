@@ -35,9 +35,6 @@ Future<void> fetchPayCheck(
       await prefs.setString('nameCompany', nameCompany);
     } else {
        fetchPayCheck(appState);
-      // Timer.periodic(const Duration(seconds: 3), (Timer timer) {
-      //   fetchPayCheck(appState);
-      // });
     }
   } catch (e) {
     appState.setIsLoading(false);

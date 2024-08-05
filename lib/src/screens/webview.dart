@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../constants/color_constants.dart';
+
 class WebViewApp extends StatefulWidget {
   
   const WebViewApp({super.key});
@@ -23,7 +25,7 @@ class _WebViewAppState extends State<WebViewApp> {
     final appState = Provider.of<AppState>(context, listen: false);
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
+      ..setBackgroundColor(ColorConstants.blackColor)
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {

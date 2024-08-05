@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
+import '../constants/color_constants.dart';
+
 class PayModalBottomSheet extends StatelessWidget {
   const PayModalBottomSheet(
       {super.key, required this.link, required this.text, required this.token});
@@ -43,7 +45,7 @@ class PayModalBottomSheet extends StatelessWidget {
                   '****$text',
                   style: const TextStyle(
                     fontSize: 16,
-                    color: Color(0xFF000000),
+                    color: Colors.black,
                   ),
                 ),
               ],

@@ -11,6 +11,7 @@ import 'package:begateway_flutter_sdk/src/widgets/styled_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../constants/color_constants.dart';
 import '../localization/find_translation.dart';
 
 import '../widgets/apple_pay_button.dart';
@@ -55,7 +56,7 @@ class ChoosePayState extends State<ChoosePay> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: const Color(0xFFFFFFFF),
+        backgroundColor: ColorConstants.whiteColor,
         body: SafeArea(
           child: appState.isLoading
               ? const Center(

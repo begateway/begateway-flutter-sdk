@@ -40,7 +40,7 @@ class DeleteModalBottomSheet extends StatelessWidget {
             findTranslation(appState.language.toString(), "want_delete_card"),
             style: const TextStyle(
               fontSize: 16,
-              color: Color(0xFF000000),
+              color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.center,
@@ -57,7 +57,7 @@ class DeleteModalBottomSheet extends StatelessWidget {
                 text,
                 style: const TextStyle(
                   fontSize: 16,
-                  color: Color(0xFF000000),
+                  color: Colors.black,
                 ),
               ),
             ],
