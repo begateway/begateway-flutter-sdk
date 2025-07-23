@@ -80,8 +80,9 @@ Future<void> fetchPayWithToken(
       //appState.setIsLoading(false);
     } else {
       // Unsuccessful request
-      appState.updateIsBegateway(false);
       appState.answearBegateway(answearSend);
+      appState.updateIsBegateway(false);
+
       appState.setIsLoading(false);
     }
   } catch (e) {

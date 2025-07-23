@@ -28,8 +28,8 @@ Future<void> fetchPayCheck(
       // Successful request
       Map<String, dynamic> answear = await json.decode(response.body);
       String nameCompany = answear["checkout"]["company"]["name"];
-      appState.updateIsBegateway(false);
       appState.answearBegateway(answear);
+      appState.updateIsBegateway(false);
       appState.setIsLoading(false);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('nameCompany', nameCompany);
