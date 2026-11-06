@@ -1,224 +1,112 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+
+import '../utils/storage_service.dart';
+import 'payment_config.dart';
+
+/// Мутабельное состояние платежа: флаги, ссылки, токены.
+///
+/// Неизменяемые параметры (реквизиты, стили) живут в [PaymentConfig] и через
+/// него доступны как `appState.config`.
+///
+/// Флаги, которые читает UI, — [ValueNotifier]: перестраивается только
+/// подписавшийся виджет, а не всё дерево. Поля, которые UI не читает
+/// (`token`, `urlLink`, ...), просто присваиваются без уведомлений.
 class AppState extends ChangeNotifier {
+  AppState({
+    required this.config,
+    required this.storage,
+    required this.updateIsBegateway,
+    required this.answearBegateway,
+  });
+
+  final PaymentConfig config;
+
+  /// Хранилище карт и названия компании: реализация приложения
+  /// (см. [StorageService]).
+  final StorageService storage;
+
+  /// Колбэк наружу: показать/скрыть виджет SDK.
   final void Function(bool) updateIsBegateway;
+
+  /// Колбэк наружу: ответ сервера (успех/ошибка платежа).
   final void Function(Map<String, dynamic>) answearBegateway;
-  final String publicKey;
-  final bool test;
-  final String transactionType;
-  final int amount;
-  final String currency;
-  final String description;
-  final String language;
-  final String holder;
-  final String customerCountry;
-  final String customerEmail;
-  final bool customerContract;
-  final String buttonText;
-  final String applePayConfig;
-  final String googlePayConfig;
-  final List<Map<String, dynamic>> paymentItems;
-  //optional parameters for customizing styles
-  //card number
-  final int? cardNumberColor;
-  final double? cardNumberSize;
 
-  final int? cardNumberHintColor;
-  final double? cardNumberHintSize;
-  final String? cardNumberHintText;
+  /// Значения по умолчанию, когда AppStateScope выше по дереву не найден.
+  factory AppState.empty() => AppState(
+        config: PaymentConfig.empty(),
+        storage: InMemoryStorage(),
+        updateIsBegateway: _ignoreBool,
+        answearBegateway: _ignoreMap,
+      );
 
-  final int? cardNumberTitleColor;
-  final double? cardNumberTitleSize;
-  final String? cardNumberTitleText;
+  /// Идёт запрос — показывать индикатор.
+  final ValueNotifier<bool> isLoading = ValueNotifier(false);
 
-  final bool? cardNumberHintHide;
-  final bool? cardNumberTitleHide;
-  //expiry date
-  final int? expireDateColor;
-  final double? expireDateSize;
+  /// Открыт 3D Secure WebView вместо формы.
+  final ValueNotifier<bool> isShowWebview = ValueNotifier(false);
 
-  final int? expireDateHintColor;
-  final double? expireDateHintSize;
-  final String? expireDateHintText;
+  /// Флаг «сохранить карту» в переключателе.
+  final ValueNotifier<bool> isSaveCard = ValueNotifier(false);
 
-  final int? expireDateTitleColor;
-  final double? expireDateTitleSize;
-  final String? expireDateTitleText;
-
-  final bool? expireDateHintHide;
-  final bool? expireDateTitleHide;
-  //CVC/CVV
-  final int? cvcCvvColor;
-  final double? cvcCvvSize;
-
-  final int? cvcCvvHintColor;
-  final double? cvcCvvHintSize;
-  final String? cvcCvvHintText;
-
-  final int? cvcCvvTitleColor;
-  final double? cvcCvvTitleSize;
-  final String? cvcCvvTitleText;
-
-  final bool? cvcHideText;
-
-  final bool? cvcCvvHintHide;
-  final bool? cvcCvvTitleHide;
-  //cardholder name
-  final int? cardholderColor;
-  final double? cardholderSize;
-
-  final int? cardholderHintColor;
-  final double? cardholderHintSize;
-  final String? cardholderHintText;
-
-  final int? cardholderTitleColor;
-  final double? cardholderTitleSize;
-  final String? cardholderTitleText;
-
-  final bool? cardholderHintHide;
-  final bool? cardholderTitleHide;
-  //border
-  final int? borderColor;
-  final int? borderFocusColor;
-  final double? borderWidth;
-  final double? borderFocusWidth;
-  //error
-  final int? errorBorderColor;
-  final double? errorBorderWidth;
-  final int? errorBorderFocusColor;
-  final double? errorBorderFocusWidth;
-  final int? errorTextColor;
-  final double? errorTextSize;
-  final String? errorCardNumberText;
-  final String? errorExpireDateText;
-  final String? errorCvcCvvText;
-  final String? errorCardholderText;
-   final bool? errorTextHide;
-
-  AppState(
-    this.updateIsBegateway,
-    this.answearBegateway,
-    this.publicKey,
-    this.test,
-    this.transactionType,
-    this.amount,
-    this.currency,
-    this.description,
-    this.language,
-    this.holder,
-    this.customerCountry,
-    this.customerEmail,
-    this.customerContract,
-    this.buttonText,
-    this.applePayConfig,
-    this.googlePayConfig,
-    this.paymentItems,
-    //optional parameters for customizing styles
-    //card number
-    this.cardNumberColor,
-    this.cardNumberSize,
-    this.cardNumberHintColor,
-    this.cardNumberHintSize,
-    this.cardNumberHintText,
-    this.cardNumberTitleColor,
-    this.cardNumberTitleSize,
-    this.cardNumberTitleText,
-    this.cardNumberHintHide,
-    this.cardNumberTitleHide,
-    //expiry date
-    this.expireDateColor,
-    this.expireDateSize,
-    this.expireDateHintColor,
-    this.expireDateHintSize,
-    this.expireDateHintText,
-    this.expireDateTitleColor,
-    this.expireDateTitleSize,
-    this.expireDateTitleText,
-    this.expireDateHintHide,
-    this.expireDateTitleHide,
-    //CVC/CVV
-    this.cvcCvvColor,
-    this.cvcCvvSize,
-    this.cvcCvvHintColor,
-    this.cvcCvvHintSize,
-    this.cvcCvvHintText,
-    this.cvcCvvTitleColor,
-    this.cvcCvvTitleSize,
-    this.cvcCvvTitleText,
-    this.cvcHideText,
-    this.cvcCvvHintHide,
-    this.cvcCvvTitleHide,
-
-    //cardholder name
-    this.cardholderColor,
-    this.cardholderSize,
-    this.cardholderHintColor,
-    this.cardholderHintSize,
-    this.cardholderHintText,
-    this.cardholderTitleColor,
-    this.cardholderTitleSize,
-    this.cardholderTitleText,
-
-    this.cardholderHintHide,
-    this.cardholderTitleHide,
-    //border
-    this.borderColor,
-    this.borderFocusColor,
-    this.borderWidth,
-    this.borderFocusWidth,
-    //error
-    this.errorBorderColor,
-    this.errorBorderWidth,
-    this.errorBorderFocusColor,
-    this.errorBorderFocusWidth,
-    this.errorTextColor,
-    this.errorTextSize,
-    this.errorCardNumberText,
-    this.errorExpireDateText,
-    this.errorCvcCvvText,
-    this.errorCardholderText,
-    this.errorTextHide,
-  );
-  bool isLoading = false;
-  bool isShowWebview = false;
-  bool isSaveCard = false;
   String urlLink = '';
   String resultUrl = '';
   String token = '';
   String saveCardToken = '';
-  //List<SaveCardModel> saveCards = [];
-  void setIsLoading(value) {
-    isLoading = value;
-    notifyListeners();
+
+  void setIsLoading(bool value) => isLoading.value = value;
+
+  void setIsShowWebview(bool value) => isShowWebview.value = value;
+
+  void setIsSaveCard(bool value) => isSaveCard.value = value;
+
+  void setToken(String value) => token = value;
+
+  void setSaveCardToken(String value) => saveCardToken = value;
+
+  /// Переход на экран 3D Secure: ссылки и оба флага меняются всегда вместе.
+  void openWebView({required String url, required String resultUrl}) {
+    urlLink = url;
+    this.resultUrl = resultUrl;
+    isShowWebview.value = true;
+    isLoading.value = false;
   }
 
-  void setIsShowWebview(value) {
-    isShowWebview = value;
-    notifyListeners();
+  /// Одиночный таймер опроса статуса транзакции.
+  Timer? _statusTimer;
+
+  /// Запланировать повторную проверку статуса через [delay].
+  ///
+  /// Прошлый таймер отменяется: раньше каждый нефинальный статус порождал
+  /// новый `Timer.periodic` без отмены — таймеры накапливались
+  /// с экспоненциальной скоростью и дублировали ответ торговцу.
+  void scheduleStatusCheck(
+    void Function() check, {
+    Duration delay = const Duration(seconds: 3),
+  }) {
+    _statusTimer?.cancel();
+    _statusTimer = Timer(delay, () {
+      _statusTimer = null;
+      check();
+    });
   }
 
-  void setIsSaveCard(value) {
-    isSaveCard = value;
-    notifyListeners();
+  /// Остановить опрос: транзакция финализирована или виджет закрыт.
+  void cancelStatusCheck() {
+    _statusTimer?.cancel();
+    _statusTimer = null;
   }
 
-  void setUrlLink(value) {
-    urlLink = value;
-    notifyListeners();
-  }
-
-  void setResultUrl(value) {
-    resultUrl = value;
-    notifyListeners();
-  }
-
-  void setToken(value) {
-    token = value;
-    notifyListeners();
-  }
-
-  void setSaveCardToken(value) {
-    saveCardToken = value;
-    notifyListeners();
+  @override
+  void dispose() {
+    cancelStatusCheck();
+    isLoading.dispose();
+    isShowWebview.dispose();
+    isSaveCard.dispose();
+    super.dispose();
   }
 }
+
+void _ignoreBool(bool _) {}
+void _ignoreMap(Map<String, dynamic> _) {}

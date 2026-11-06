@@ -1,4 +1,4 @@
-const Map<String, String> sv ={
+const Map<String, String> sv = {
   "begateway_form_hint_card_number": "Kortnummer",
   "begateway_form_hint_expiration": "Förfallodatum",
   "begateway_form_hint_cardholder_name": "Namn på kortet",
@@ -19,7 +19,8 @@ const Map<String, String> sv ={
   "begateway_button_pay": "Betala",
   "begateway_secure_info": "Säker betalning tillhandahålls av",
   "change": "Ändra",
-  "sorry_incorrect_data": "Ett betalningsfel har inträffat. Försök igen eller använd ett annat kort.",
+  "sorry_incorrect_data":
+      "Ett betalningsfel har inträffat. Försök igen eller använd ett annat kort.",
   "ok": "OK",
   "cancel": "Avbryt",
   "turn_on": "Slå på",

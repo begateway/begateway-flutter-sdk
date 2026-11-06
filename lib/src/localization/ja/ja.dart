@@ -1,4 +1,4 @@
-const Map<String, String> ja ={
+const Map<String, String> ja = {
   "begateway_form_hint_card_number": "カード番号",
   "begateway_form_hint_expiration": "有効期限",
   "begateway_form_hint_cardholder_name": "カードの名義",

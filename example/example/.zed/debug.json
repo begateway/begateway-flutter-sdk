@@ -1,0 +1,45 @@
+[
+  {
+    "label": "Flutter: Debug (Android emulator-5554)",
+    "adapter": "Dart",
+    "type": "flutter",
+    "request": "launch",
+    "program": "lib/main.dart",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "deviceId": "emulator-5554",
+    "flutterMode": "debug",
+    "stopOnEntry": false
+  },
+  {
+    "label": "Flutter: Debug (macOS)",
+    "adapter": "Dart",
+    "type": "flutter",
+    "request": "launch",
+    "program": "lib/main.dart",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "deviceId": "macos",
+    "flutterMode": "debug",
+    "stopOnEntry": false
+  },
+  {
+    "label": "Flutter: Debug (Chrome)",
+    "adapter": "Dart",
+    "type": "flutter",
+    "request": "launch",
+    "program": "lib/main.dart",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "deviceId": "chrome",
+    "flutterMode": "debug",
+    "stopOnEntry": false
+  },
+  {
+    "label": "Flutter: Tests",
+    "adapter": "Dart",
+    "type": "flutter",
+    "request": "launch",
+    "program": "test/begateway_pages_test.dart",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "flutterMode": "test",
+    "stopOnEntry": false
+  }
+]

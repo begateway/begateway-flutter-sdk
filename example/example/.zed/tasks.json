@@ -1,0 +1,34 @@
+[
+  {
+    "label": "Flutter: Run (Android emulator-5554)",
+    "command": "flutter",
+    "args": ["run", "-d", "emulator-5554"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "use_new_terminal": false
+  },
+  {
+    "label": "Flutter: Pub get",
+    "command": "flutter",
+    "args": ["pub", "get"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "use_new_terminal": false
+  },
+  {
+    "label": "Flutter: Analyze",
+    "command": "flutter",
+    "args": ["analyze"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "use_new_terminal": false
+  },
+  {
+    "label": "Flutter: Test",
+    "command": "flutter",
+    "args": ["test"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "use_new_terminal": false
+  }
+]
