@@ -19,69 +19,32 @@ import 'tr/tr.dart';
 import 'uk/uk.dart';
 import 'zh/zh.dart';
 
+/// Все переводы по коду локали. Поиск по ключу — O(1), без switch на 20 веток.
+const Map<String, Map<String, String>> _translations = {
+  'az': az,
+  'be': be,
+  'da': da,
+  'de': de,
+  'en': en,
+  'es': es,
+  'fi': fi,
+  'fr': fr,
+  'it': it,
+  'ja': ja,
+  'ka': ka,
+  'lv': lv,
+  'nb': nb,
+  'pl': pl,
+  'ro': ro,
+  'ru': ru,
+  'sv': sv,
+  'tr': tr,
+  'uk': uk,
+  'zh': zh,
+};
+
+/// Перевод [phrase] для [locale]: локаль → fallback на en → сам ключ.
 String findTranslation(String locale, String phrase) {
-  String result = '';
-  switch (locale) {
-    case 'az':
-      result = az[phrase] ?? phrase;
-      break;
-    case 'be':
-      result = be[phrase] ?? phrase;
-      break;
-    case 'da':
-      result = da[phrase] ?? phrase;
-      break;
-    case 'de':
-      result = de[phrase] ?? phrase;
-      break;
-    case 'en':
-      result = en[phrase] ?? phrase;
-      break;
-    case 'es':
-      result = es[phrase] ?? phrase;
-      break;
-    case 'fi':
-      result = fi[phrase] ?? phrase;
-      break;
-    case 'fr':
-      result = fr[phrase] ?? phrase;
-      break;
-    case 'it':
-      result = it[phrase] ?? phrase;
-      break;
-    case 'ja':
-      result = ja[phrase] ?? phrase;
-      break;
-    case 'ka':
-      result = ka[phrase] ?? phrase;
-      break;
-    case 'lv':
-      result = lv[phrase] ?? phrase;
-      break;
-    case 'nb':
-      result = nb[phrase] ?? phrase;
-      break;
-    case 'pl':
-      result = pl[phrase] ?? phrase;
-      break;
-    case 'ro':
-      result = ro[phrase] ?? phrase;
-      break;
-    case 'ru':
-      result = ru[phrase] ?? phrase;
-      break;
-    case 'sv':
-      result = sv[phrase] ?? phrase;
-      break;
-    case 'tr':
-      result = tr[phrase] ?? phrase;
-      break;
-    case 'uk':
-      result = uk[phrase] ?? phrase;
-      break;
-       case 'zh':
-      result = zh[phrase] ?? phrase;
-      break;
-  }
-  return result;
+  final dictionary = _translations[locale];
+  return dictionary?[phrase] ?? en[phrase] ?? phrase;
 }

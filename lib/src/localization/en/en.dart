@@ -1,4 +1,4 @@
- const Map<String, String> en ={
+const Map<String, String> en = {
   "dismissPresentation": "Tap to Dismiss Presentation.",
   "changeSizeOfPresentation": "Tap to switch between presentation sizes.",
   "begateway_form_hint_card_number": "Card number",
@@ -23,14 +23,16 @@
   "cancel": "Cancel",
   "change": "Change",
   "scan_by_camera": "Scan by camera",
-  "sorry_incorrect_data": "There was a payment error. Try again or use another card.",
+  "sorry_incorrect_data":
+      "There was a payment error. Try again or use another card.",
   "ok": "OK",
   "turn_on": "Turn on",
   "error": "Error",
   "an_error_occurred_during_scanning": "An error occurred during scanning",
   "please_turn_on_nfc": "Please turn on NFC",
   "nfc_not_supported": "NFC not supported",
-  "please_attach_bank_card_to_the_phone": "Please attach bank card to the phone",
+  "please_attach_bank_card_to_the_phone":
+      "Please attach bank card to the phone",
   "from_photo": "Scan by camera",
   "scan_by_nfc": "Scan by NFC",
   "please_wait": "Please wait",
@@ -44,4 +46,3 @@
   "another_card": "Another card",
   "want_delete_card": "Do you really want to delete this bank card?"
 };
-

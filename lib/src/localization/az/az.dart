@@ -1,4 +1,3 @@
-
 const Map<String, String> az = {
   "begateway_form_hint_card_number": "Kartı nömrəsi",
   "begateway_form_hint_expiration": "Son istifadə tarixi",
@@ -20,7 +19,8 @@ const Map<String, String> az = {
   "begateway_button_pay": "Ödəyin",
   "begateway_secure_info": "Təhlükəsiz ödəniş tərəfindən təmin edilir",
   "change": "Dəyişin",
-  "sorry_incorrect_data": "Ödəniş xətası baş verdi. Yenidən cəhd edin və ya başqa kartdan istifadə edin.",
+  "sorry_incorrect_data":
+      "Ödəniş xətası baş verdi. Yenidən cəhd edin və ya başqa kartdan istifadə edin.",
   "ok": "Oldu",
   "cancel": "Ləğv et!",
   "turn_on": "İşə sal",

@@ -1,14 +1,16 @@
 import 'package:begateway_flutter_sdk/src/models/save_card_model.dart';
+import 'package:begateway_flutter_sdk/src/pages/begateway_pages.dart';
 import 'package:begateway_flutter_sdk/src/providers/app_state.dart';
-import 'package:begateway_flutter_sdk/src/screens/card_payment_form.dart';
-import 'package:begateway_flutter_sdk/src/screens/choose_pay.dart';
-import 'package:begateway_flutter_sdk/src/utils/storage_servise.dart';
+import 'package:begateway_flutter_sdk/src/providers/app_state_scope.dart';
+import 'package:begateway_flutter_sdk/src/providers/payment_config.dart';
+import 'package:begateway_flutter_sdk/src/utils/storage_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Begateway extends StatefulWidget {
   const Begateway({
     super.key,
+    required this.pages,
+    required this.storage,
     required this.showIsBegateway,
     required this.getAnswearFromBegateway,
     required this.publicKey,
@@ -26,8 +28,12 @@ class Begateway extends StatefulWidget {
     required this.applePayConfig,
     required this.paymentItems,
     required this.googlePayConfig,
-    //optional parameters for customizing styles
-    //card number
+    // данные клиента (пустые по умолчанию)
+    this.customerAddress = '',
+    this.customerCity = '',
+    this.deviceId = '',
+    // необязательные параметры оформления
+    // номер карты
     this.cardNumberColor,
     this.cardNumberSize,
     this.cardNumberHintColor,
@@ -38,7 +44,7 @@ class Begateway extends StatefulWidget {
     this.cardNumberTitleText,
     this.cardNumberHintHide,
     this.cardNumberTitleHide,
-    //expiry date
+    // срок действия
     this.expireDateColor,
     this.expireDateSize,
     this.expireDateHintColor,
@@ -49,7 +55,7 @@ class Begateway extends StatefulWidget {
     this.expireDateTitleText,
     this.expireDateHintHide,
     this.expireDateTitleHide,
-    //CVC/CVV
+    // код безопасности CVC/CVV
     this.cvcCvvColor,
     this.cvcCvvSize,
     this.cvcCvvHintColor,
@@ -61,7 +67,7 @@ class Begateway extends StatefulWidget {
     this.cvcHideText,
     this.cvcCvvHintHide,
     this.cvcCvvTitleHide,
-    //cardholder name
+    // имя держателя
     this.cardholderColor,
     this.cardholderSize,
     this.cardholderHintColor,
@@ -72,12 +78,12 @@ class Begateway extends StatefulWidget {
     this.cardholderTitleText,
     this.cardholderHintHide,
     this.cardholderTitleHide,
-    //border
+    // рамка
     this.borderColor,
     this.borderFocusColor,
     this.borderWidth,
     this.borderFocusWidth,
-    //error
+    // ошибки
     this.errorBorderColor,
     this.errorBorderWidth,
     this.errorBorderFocusColor,
@@ -90,6 +96,14 @@ class Begateway extends StatefulWidget {
     this.errorCardholderText,
     this.errorTextHide,
   });
+
+  /// Реализация страниц оплаты: ядро не содержит UI, всё
+  /// рисует приложение (см. [BegatewayPages]).
+  final BegatewayPages pages;
+
+  /// Реализация хранилища сохранённых карт и данных платежа
+  /// (см. [StorageService]).
+  final StorageService storage;
   final void Function(bool) showIsBegateway;
   final void Function(Map<String, dynamic>) getAnswearFromBegateway;
   final String publicKey;
@@ -107,8 +121,13 @@ class Begateway extends StatefulWidget {
   final String applePayConfig;
   final String googlePayConfig;
   final List<Map<String, dynamic>> paymentItems;
-  //optional parameters for customizing styles
-  //card number
+
+  /// Данные клиента для запросов к API — см. [PaymentConfig].
+  final String customerAddress;
+  final String customerCity;
+  final String deviceId;
+  // необязательные параметры оформления
+  // номер карты
   final int? cardNumberColor;
   final double? cardNumberSize;
 
@@ -122,7 +141,7 @@ class Begateway extends StatefulWidget {
 
   final bool? cardNumberHintHide;
   final bool? cardNumberTitleHide;
-  //expiry date
+  // срок действия
   final int? expireDateColor;
   final double? expireDateSize;
 
@@ -136,7 +155,7 @@ class Begateway extends StatefulWidget {
 
   final bool? expireDateHintHide;
   final bool? expireDateTitleHide;
-  //CVC/CVV
+  // код безопасности CVC/CVV
   final int? cvcCvvColor;
   final double? cvcCvvSize;
 
@@ -152,7 +171,7 @@ class Begateway extends StatefulWidget {
 
   final bool? cvcCvvHintHide;
   final bool? cvcCvvTitleHide;
-  //cardholder name
+  // имя держателя
   final int? cardholderColor;
   final double? cardholderSize;
   final int? cardholderHintColor;
@@ -164,12 +183,12 @@ class Begateway extends StatefulWidget {
 
   final bool? cardholderHintHide;
   final bool? cardholderTitleHide;
-  //border
+  // рамка
   final int? borderColor;
   final int? borderFocusColor;
   final double? borderWidth;
   final double? borderFocusWidth;
-  //error
+  // ошибки
   final int? errorBorderColor;
   final double? errorBorderWidth;
   final int? errorBorderFocusColor;
@@ -188,140 +207,178 @@ class Begateway extends StatefulWidget {
 }
 
 class BegatewayContainerState extends State<Begateway> {
-  bool shouldShowPay = false;
-  bool isLouder = true;
-  List<SaveCardModel> cards = [];
+  /// Пока читаются сохранённые карты — показывается заставка.
+  final _isLoading = ValueNotifier<bool>(true);
+
+  /// Сохранённые карты: непустой список → экран выбора карты,
+  /// иначе — форма оплаты.
+  final _savedCards = ValueNotifier<List<SaveCardModel>>(const []);
+
+  late final AppState _appState;
 
   @override
   void initState() {
     super.initState();
+    _appState = AppState(
+      storage: widget.storage,
+      config: PaymentConfig(
+        publicKey: widget.publicKey,
+        test: widget.test,
+        transactionType: widget.transactionType,
+        amount: widget.amount,
+        currency: widget.currency,
+        description: widget.description,
+        language: widget.language,
+        holder: widget.holder,
+        customerCountry: widget.customerCountry,
+        customerEmail: widget.customerEmail,
+        customerContract: widget.customerContract,
+        buttonText: widget.buttonText,
+        applePayConfig: widget.applePayConfig,
+        googlePayConfig: widget.googlePayConfig,
+        paymentItems: widget.paymentItems,
+        customerAddress: widget.customerAddress,
+        customerCity: widget.customerCity,
+        deviceId: widget.deviceId,
+        cvcHideText: widget.cvcHideText ?? false,
+        cardNumber: CardFieldStyle(
+          color: widget.cardNumberColor,
+          size: widget.cardNumberSize,
+          hintColor: widget.cardNumberHintColor,
+          hintSize: widget.cardNumberHintSize,
+          hintText: widget.cardNumberHintText,
+          titleColor: widget.cardNumberTitleColor,
+          titleSize: widget.cardNumberTitleSize,
+          titleText: widget.cardNumberTitleText,
+          hideHint: widget.cardNumberHintHide ?? false,
+          hideTitle: widget.cardNumberTitleHide ?? false,
+        ),
+        expireDate: CardFieldStyle(
+          color: widget.expireDateColor,
+          size: widget.expireDateSize,
+          hintColor: widget.expireDateHintColor,
+          hintSize: widget.expireDateHintSize,
+          hintText: widget.expireDateHintText,
+          titleColor: widget.expireDateTitleColor,
+          titleSize: widget.expireDateTitleSize,
+          titleText: widget.expireDateTitleText,
+          hideHint: widget.expireDateHintHide ?? false,
+          hideTitle: widget.expireDateTitleHide ?? false,
+        ),
+        cvcCvv: CardFieldStyle(
+          color: widget.cvcCvvColor,
+          size: widget.cvcCvvSize,
+          hintColor: widget.cvcCvvHintColor,
+          hintSize: widget.cvcCvvHintSize,
+          hintText: widget.cvcCvvHintText,
+          titleColor: widget.cvcCvvTitleColor,
+          titleSize: widget.cvcCvvTitleSize,
+          titleText: widget.cvcCvvTitleText,
+          hideHint: widget.cvcCvvHintHide ?? false,
+          hideTitle: widget.cvcCvvTitleHide ?? false,
+        ),
+        cardholder: CardFieldStyle(
+          color: widget.cardholderColor,
+          size: widget.cardholderSize,
+          hintColor: widget.cardholderHintColor,
+          hintSize: widget.cardholderHintSize,
+          hintText: widget.cardholderHintText,
+          titleColor: widget.cardholderTitleColor,
+          titleSize: widget.cardholderTitleSize,
+          titleText: widget.cardholderTitleText,
+          hideHint: widget.cardholderHintHide ?? false,
+          hideTitle: widget.cardholderTitleHide ?? false,
+        ),
+        border: FieldBorderStyle(
+          color: widget.borderColor,
+          focusColor: widget.borderFocusColor,
+          width: widget.borderWidth,
+          focusWidth: widget.borderFocusWidth,
+        ),
+        error: ErrorStyle(
+          borderColor: widget.errorBorderColor,
+          borderWidth: widget.errorBorderWidth,
+          focusColor: widget.errorBorderFocusColor,
+          focusWidth: widget.errorBorderFocusWidth,
+          textColor: widget.errorTextColor,
+          textSize: widget.errorTextSize,
+          cardNumberText: widget.errorCardNumberText,
+          expireDateText: widget.errorExpireDateText,
+          cvcCvvText: widget.errorCvcCvvText,
+          cardholderText: widget.errorCardholderText,
+          hideText: widget.errorTextHide ?? false,
+        ),
+      ),
+      updateIsBegateway: widget.showIsBegateway,
+      answearBegateway: widget.getAnswearFromBegateway,
+    );
     initSaveCards();
   }
 
+  @override
+  void dispose() {
+    _isLoading.dispose();
+    _savedCards.dispose();
+    _appState.dispose();
+    super.dispose();
+  }
+
   Future<void> initSaveCards() async {
-    List<SaveCardModel> savedCards = await getSavedCardsFromStorage();
-    setState(() {
-      isLouder = false; // Hide the CircularProgressIndicator first
-      if (savedCards.isNotEmpty) {
-        cards = savedCards;
-        shouldShowPay = true;
-      } else {
-        shouldShowPay = false;
-      }
-    });
+    final savedCards = await _appState.storage.getCards();
+    _savedCards.value = savedCards;
+    _isLoading.value = false;
+  }
+
+  /// Удаление сохранённой карты: обновляет хранилище и список —
+  /// ядро перестроит страницу выбора карт (или уйдёт на форму,
+  /// если карт не осталось).
+  void _removeCard(String token) {
+    _savedCards.value = [
+      for (final card in _savedCards.value)
+        if (card.saveToken != token) card,
+    ];
+    _appState.storage.removeCard(token);
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => AppState(
-              widget.showIsBegateway,
-              widget.getAnswearFromBegateway,
-              widget.publicKey,
-              widget.test,
-              widget.transactionType,
-              widget.amount,
-              widget.currency,
-              widget.description,
-              widget.language,
-              widget.holder,
-              widget.customerCountry,
-              widget.customerEmail,
-              widget.customerContract,
-              widget.buttonText,
-              widget.applePayConfig,
-              widget.googlePayConfig,
-              widget.paymentItems,
-              //optional parameters for customizing styles
-              //card number
-              widget.cardNumberColor,
-              widget.cardNumberSize,
-
-              widget.cardNumberHintColor,
-              widget.cardNumberHintSize,
-              widget.cardNumberHintText,
-
-              widget.cardNumberTitleColor,
-              widget.cardNumberTitleSize,
-              widget.cardNumberTitleText,
-              widget.cardNumberHintHide,
-              widget.cardNumberTitleHide,
-              //expiry date
-              widget.expireDateColor,
-              widget.expireDateSize,
-
-              widget.expireDateHintColor,
-              widget.expireDateHintSize,
-              widget.expireDateHintText,
-
-              widget.expireDateTitleColor,
-              widget.expireDateTitleSize,
-              widget.expireDateTitleText,
-
-              widget.expireDateHintHide,
-              widget.expireDateTitleHide,
-              //CVC/CVV
-              widget.cvcCvvColor,
-              widget.cvcCvvSize,
-
-              widget.cvcCvvHintColor,
-              widget.cvcCvvHintSize,
-              widget.cvcCvvHintText,
-
-              widget.cvcCvvTitleColor,
-              widget.cvcCvvTitleSize,
-              widget.cvcCvvTitleText,
-              widget.cvcHideText,
-
-              widget.cvcCvvHintHide,
-              widget.cvcCvvTitleHide,
-              //cardholder name
-              widget.cardholderColor,
-              widget.cardholderSize,
-
-              widget.cardholderHintColor,
-              widget.cardholderHintSize,
-              widget.cardholderHintText,
-
-              widget.cardholderTitleColor,
-              widget.cardholderTitleSize,
-              widget.cardholderTitleText,
-
-              widget.cardholderHintHide,
-              widget.cardholderTitleHide,
-              //border
-              widget.borderColor,
-              widget.borderFocusColor,
-              widget.borderWidth,
-              widget.borderFocusWidth,
-              //error
-              widget.errorBorderColor,
-              widget.errorBorderWidth,
-              widget.errorBorderFocusColor,
-              widget.errorBorderFocusWidth,
-              widget.errorTextColor,
-              widget.errorTextSize,
-              widget.errorCardNumberText,
-              widget.errorExpireDateText,
-              widget.errorCvcCvvText,
-              widget.errorCardholderText,
-              widget.errorTextHide,
-            ),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: isLouder
-              ? const Scaffold(
-                  backgroundColor: Color(0xFFFFFFFF),
-                  body: Center(
-                    child: Text(
-                      'beGateway',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ))
-              : shouldShowPay
-                  ? ChoosePay(savedCards: cards, lang: widget.language)
-                  : CardPaymentForm(lang: widget.language),
-        ));
+    return AppStateScope(
+      notifier: _appState,
+      child: Stack(
+        children: [
+          // Активная страница флоу: заставка → выбор карт / форма.
+          ValueListenableBuilder<bool>(
+            valueListenable: _isLoading,
+            builder: (context, isLoading, _) => isLoading
+                ? const Scaffold(
+                    backgroundColor: Color(0xFFFFFFFF),
+                    body: Center(
+                      child: Text(
+                        'beGateway',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ))
+                : ValueListenableBuilder<List<SaveCardModel>>(
+                    valueListenable: _savedCards,
+                    builder: (context, cards, _) => cards.isNotEmpty
+                        ? widget.pages
+                            .buildChoosePayPage(context, cards, _removeCard)
+                        : widget.pages.buildPaymentPage(context),
+                  ),
+          ),
+          // WebView (платёжная страница / 3D Secure) поверх активной
+          // страницы: закрой — и вернёшься к ней с сохранённым
+          // состоянием. Раньше флаг читала только форма, поэтому
+          // оплата с экрана выбора карт не показывала WebView.
+          ValueListenableBuilder<bool>(
+            valueListenable: _appState.isShowWebview,
+            builder: (context, showWebView, _) => showWebView
+                ? widget.pages.buildWebViewPage(context)
+                : const SizedBox.shrink(),
+          ),
+        ],
+      ),
+    );
   }
 }

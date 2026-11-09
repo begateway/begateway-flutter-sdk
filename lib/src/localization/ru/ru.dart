@@ -1,4 +1,4 @@
-const Map<String, String> ru ={
+const Map<String, String> ru = {
   "begateway_form_hint_card_number": "Номер карты",
   "begateway_form_hint_expiration": "Срок действия",
   "begateway_form_hint_cardholder_name": "Имя на карте",
@@ -14,12 +14,14 @@ const Map<String, String> ru ={
   "begateway_cvv_invalid": "СVV/СVC неверный",
   "begateway_expiration_required": "Необходимо указать срок действия",
   "begateway_expiration_invalid": "Срок действия недействительный",
-  "begateway_cardholder_name_required": "Необходимо указать имя, написанное на карте",
+  "begateway_cardholder_name_required":
+      "Необходимо указать имя, написанное на карте",
   "begateway_savecard": "Запомнить карту",
   "begateway_button_pay": "Оплатить",
   "begateway_secure_info": "Безопасная оплата обеспечивается",
   "change": "Изменить",
-  "sorry_incorrect_data": "Ошибка в процессе оплаты. Попробуйте еще раз или используйте другую карту",
+  "sorry_incorrect_data":
+      "Ошибка в процессе оплаты. Попробуйте еще раз или используйте другую карту",
   "ok": "OK",
   "cancel": "Отменить",
   "turn_on": "Включить",
@@ -27,7 +29,8 @@ const Map<String, String> ru ={
   "an_error_occurred_during_scanning": "При сканировании произошла ошибка",
   "please_turn_on_nfc": "Включите NFC",
   "nfc_not_supported": "NFC не поддерживается",
-  "please_attach_bank_card_to_the_phone": "Приложите банковскую карту к телефону",
+  "please_attach_bank_card_to_the_phone":
+      "Приложите банковскую карту к телефону",
   "from_photo": "Сканировать камерой",
   "scan_by_nfc": "Сканировать через NFC",
   "please_wait": "Ожидайте",
@@ -37,4 +40,3 @@ const Map<String, String> ru ={
   "another_card": "Другая карта",
   "want_delete_card": "Вы действительно хотите удалить эту банковскую карту?"
 };
-

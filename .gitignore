@@ -10,6 +10,9 @@
 .svn/
 migrate_working_dir/
 
+# Zed project-local debug/task configuration
+.zed/
+
 # IntelliJ related
 *.iml
 *.ipr
