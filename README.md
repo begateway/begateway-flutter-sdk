@@ -26,7 +26,7 @@ To start using this library, add `begateway_flutter_sdk` as a [dependency in you
 
 ```yaml
 dependencies:
-  begateway_flutter_sdk: ^0.0.1
+  begateway_flutter_sdk: ^1.0.0
 ```
 ### Example:
 Config for ApplePay:
