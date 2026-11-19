@@ -1,4 +1,4 @@
-const Map<String, String> uk ={
+const Map<String, String> uk = {
   "begateway_form_hint_card_number": "Номер картки",
   "begateway_form_hint_expiration": "Термін дії",
   "begateway_form_hint_cardholder_name": "Ім'я на картці",
@@ -19,7 +19,8 @@ const Map<String, String> uk ={
   "begateway_button_pay": "Сплатити",
   "begateway_secure_info": "Захищений платіж забезпечує",
   "change": "Змінити",
-  "sorry_incorrect_data": "Під час оплати сталася помилка. Спробуйте ще раз або скористайтеся іншою карткою.",
+  "sorry_incorrect_data":
+      "Під час оплати сталася помилка. Спробуйте ще раз або скористайтеся іншою карткою.",
   "ok": "OK",
   "cancel": "Скасувати",
   "turn_on": "Увімкнути",
@@ -27,7 +28,8 @@ const Map<String, String> uk ={
   "an_error_occurred_during_scanning": "Під час сканування сталася помилка",
   "please_turn_on_nfc": "Увімкніть NFC",
   "nfc_not_supported": "NFC не підтримується",
-  "please_attach_bank_card_to_the_phone": "Прикладіть банківську картку до телефона",
+  "please_attach_bank_card_to_the_phone":
+      "Прикладіть банківську картку до телефона",
   "from_photo": "Проскануйте камерою",
   "scan_by_nfc": "Сканувати модулем NFC",
   "please_wait": "Зачекайте",

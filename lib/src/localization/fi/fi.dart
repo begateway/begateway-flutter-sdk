@@ -1,4 +1,4 @@
-const Map<String, String> fi ={
+const Map<String, String> fi = {
   "begateway_form_hint_card_number": "Kortin numero",
   "begateway_form_hint_expiration": "Päättymispäivä",
   "begateway_form_hint_cardholder_name": "Kortinhaltijan nimi",
@@ -19,7 +19,8 @@ const Map<String, String> fi ={
   "begateway_button_pay": "Maksa",
   "begateway_secure_info": "Turvallisen maksun tarjoaa",
   "change": "Vaihda",
-  "sorry_incorrect_data": "Maksussa tapahtui virhe. Yritä uudelleen tai käytä toista korttia.",
+  "sorry_incorrect_data":
+      "Maksussa tapahtui virhe. Yritä uudelleen tai käytä toista korttia.",
   "ok": "OK",
   "cancel": "Peruuta",
   "turn_on": "Käytä",

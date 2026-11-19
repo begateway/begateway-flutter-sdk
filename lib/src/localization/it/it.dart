@@ -1,4 +1,4 @@
-const Map<String, String> it ={
+const Map<String, String> it = {
   "begateway_form_hint_card_number": "Numero carta",
   "begateway_form_hint_expiration": "Data di scadenza",
   "begateway_form_hint_cardholder_name": "Nome sulla carta",
@@ -14,20 +14,24 @@ const Map<String, String> it ={
   "begateway_cvv_invalid": "Il codice CVV/CVC non è valido",
   "begateway_expiration_required": "La data di scadenza è obbligatoria",
   "begateway_expiration_invalid": "La data di scadenza non è valida",
-  "begateway_cardholder_name_required": "Il nome indicato sulla carta è obbligatorio",
+  "begateway_cardholder_name_required":
+      "Il nome indicato sulla carta è obbligatorio",
   "begateway_savecard": "Ricordami la prossima volta",
   "begateway_button_pay": "Paga",
   "begateway_secure_info": "Pagamento sicuro fornito da",
   "change": "Modifica",
-  "sorry_incorrect_data": "Si è verificato un errore di pagamento. Riprova o usa un'altra carta.",
+  "sorry_incorrect_data":
+      "Si è verificato un errore di pagamento. Riprova o usa un'altra carta.",
   "ok": "ok",
   "cancel": "Annulla",
   "turn_on": "Accendi",
   "error": "Errore",
-  "an_error_occurred_during_scanning": "Si è verificato un errore durante la scansione",
+  "an_error_occurred_during_scanning":
+      "Si è verificato un errore durante la scansione",
   "please_turn_on_nfc": "Attiva NFC",
   "nfc_not_supported": "NFC non supportato",
-  "please_attach_bank_card_to_the_phone": "Allega la carta di credito al telefono",
+  "please_attach_bank_card_to_the_phone":
+      "Allega la carta di credito al telefono",
   "from_photo": "Scansione dalla fotocamera",
   "scan_by_nfc": "Scansione tramite NFC",
   "please_wait": "Attendere prego",

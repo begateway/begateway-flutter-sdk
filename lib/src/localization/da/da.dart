@@ -1,4 +1,4 @@
-const Map<String, String> da ={
+const Map<String, String> da = {
   "begateway_form_hint_card_number": "Kortnummer",
   "begateway_form_hint_expiration": "Udløbsdato",
   "begateway_form_hint_cardholder_name": "Kortholder navn",
@@ -19,7 +19,8 @@ const Map<String, String> da ={
   "begateway_button_pay": "Betal",
   "begateway_secure_info": "Sikker betaling leveres af",
   "change": "Ændring",
-  "sorry_incorrect_data": "Der var en betalingsfejl.Prøv igen eller brug et andet kort.",
+  "sorry_incorrect_data":
+      "Der var en betalingsfejl.Prøv igen eller brug et andet kort.",
   "ok": "OK",
   "cancel": "Annuller",
   "turn_on": "Aktivér",

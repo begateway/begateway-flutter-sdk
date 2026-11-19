@@ -14,12 +14,14 @@ const Map<String, String> be = {
   "begateway_cvv_invalid": "CVV/CVC несапраўдны",
   "begateway_expiration_required": "Неабходна ўказаць тэрмін дзеяння",
   "begateway_expiration_invalid": "Тэрмін дзеяння несапраўдны",
-  "begateway_cardholder_name_required": "Неабходна ўказаць імя, напісанае на карце",
+  "begateway_cardholder_name_required":
+      "Неабходна ўказаць імя, напісанае на карце",
   "begateway_savecard": "Запомніць картку",
   "begateway_button_pay": "Аплаціць",
   "begateway_secure_info": "Абароненыя плацяжы на платформе",
   "change": "Змяніць",
-  "sorry_incorrect_data": "Памылка аплаты. Паўтарыце спробу або выкарыстайце іншую картку",
+  "sorry_incorrect_data":
+      "Памылка аплаты. Паўтарыце спробу або выкарыстайце іншую картку",
   "ok": "OK",
   "cancel": "Скасаваць",
   "turn_on": "Уключыць",
@@ -27,7 +29,8 @@ const Map<String, String> be = {
   "an_error_occurred_during_scanning": "Пры сканіраванні адбылася памылка",
   "please_turn_on_nfc": "Уключыце NFC",
   "nfc_not_supported": "NFC не падтрымліваецца",
-  "please_attach_bank_card_to_the_phone": "Прыкладзіце банкаўскую карту да тэлефона",
+  "please_attach_bank_card_to_the_phone":
+      "Прыкладзіце банкаўскую карту да тэлефона",
   "from_photo": "Сканіраванне камерай",
   "scan_by_nfc": "Сканіраванне праз NFC",
   "please_wait": "Чакайце",

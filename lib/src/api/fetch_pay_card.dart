@@ -1,13 +1,15 @@
 import 'dart:convert';
+import 'package:begateway_flutter_sdk/src/api/api_client.dart';
+import 'package:begateway_flutter_sdk/src/api/checkout_request.dart';
 import 'package:begateway_flutter_sdk/src/api/fetch_pay_check.dart';
 import 'package:begateway_flutter_sdk/src/constants/constants.dart';
+import 'package:begateway_flutter_sdk/src/models/payment_response.dart';
 import 'package:begateway_flutter_sdk/src/models/save_card_model.dart';
 
 import 'package:begateway_flutter_sdk/src/providers/app_state.dart';
-import 'package:begateway_flutter_sdk/src/utils/storage_servise.dart';
+import 'package:begateway_flutter_sdk/src/utils/customer_name.dart';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 Future<void> fetchPayCard(
   AppState appState,
@@ -21,19 +23,14 @@ Future<void> fetchPayCard(
 ) async {
   final url = Uri.parse(ApiConstants.paymentUrl);
 
-  final headersData = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'X-API-Version': '2.1',
-    'Authorization': token,
-  };
+  final customerName = parseCustomerName(nameHolder);
 
   final paymentData = {
     'request': {
       'customer': {
-        'first_name': nameHolder.split(' ')[0],
-        'last_name': nameHolder.split(' ')[1],
-        'device_id': '363',
+        'first_name': customerName.firstName,
+        'last_name': customerName.lastName,
+        'device_id': appState.config.deviceId,
       },
       'payment_method': 'credit_card',
       'token': token,
@@ -50,52 +47,52 @@ Future<void> fetchPayCard(
   };
 
   try {
-    final response = await http.post(url,
-        headers: headersData, body: jsonEncode(paymentData));
-    String answear = await json.decode(response.body)["response"]["status"];
-    
-    Map<String, dynamic> answearSend = await json.decode(response.body);
-    String? brand =
-        await json.decode(response.body)["response"]["credit_card"]["brand"];
-    String? lastFourNumbers =
-        await json.decode(response.body)["response"]["credit_card"]["last_4"];
-    String? saveToken =
-        await json.decode(response.body)["response"]["credit_card"]["token"];
-    if (answear == 'incomplete') {
-      if (saveToken != null && appState.isSaveCard) {
-        await addCardToStorage(SaveCardModel(
-          brand: brand,
-          lastFourNumbers: lastFourNumbers,
+    final httpResponse = await ApiClient.post(
+      url,
+      headers: paymentHeaders(token),
+      body: paymentData,
+    );
+
+    // Тело декодируется один раз: раньше здесь было шесть json.decode
+    // по одному и тому же response.body.
+    final answearSend = json.decode(httpResponse.body) as Map<String, dynamic>;
+    // Структура ответа проверяется паттерном: credit_card может
+    // отсутствовать (например, при статусе error).
+    final payment = PaymentResponse.fromJson(answearSend);
+    final creditCard = payment.creditCard;
+
+    Future<void> saveCardIfRequested() async {
+      final saveToken = creditCard?.saveToken;
+      if (saveToken != null && appState.isSaveCard.value) {
+        await appState.storage.addCard(SaveCardModel(
+          brand: creditCard?.brand,
+          lastFourNumbers: creditCard?.lastFourNumbers,
           saveToken: saveToken,
         ));
       }
-      String urlLink = await json.decode(response.body)["response"]["url"];
-      String resultUrl =
-          await json.decode(response.body)["response"]["result_url"];
-      appState.setUrlLink(urlLink);
-      appState.setResultUrl(resultUrl);
-      appState.setIsLoading(false);
-      appState.setIsShowWebview(true);
+    }
+
+    if (payment.status == 'incomplete') {
+      await saveCardIfRequested();
+      final url = payment.url;
+      final resultUrl = payment.resultUrl;
+      if (url == null || resultUrl == null) {
+        throw ArgumentError('Incomplete payment without url: $answearSend');
+      }
+      appState.openWebView(url: url, resultUrl: resultUrl);
       return;
-    } else if (answear == 'successful' || answear == 'failed') {
-      if (saveToken != null && appState.isSaveCard) {
-        await addCardToStorage(SaveCardModel(
-          brand: brand,
-          lastFourNumbers: lastFourNumbers,
-          saveToken: saveToken,
-        ));
-      }
+    } else if (payment.status == 'successful' || payment.status == 'failed') {
+      await saveCardIfRequested();
       fetchPayCheck(appState);
       return;
-    } else if (answear == 'error') {
+    } else if (payment.status == 'error') {
       appState.answearBegateway(answearSend);
       appState.updateIsBegateway(false);
       appState.setIsLoading(false);
       return;
     }
   } catch (e) {
-     appState.setIsLoading(false);
+    appState.setIsLoading(false);
     debugPrint('Error: $e');
-   
   }
 }

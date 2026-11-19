@@ -1,4 +1,4 @@
-const Map<String, String> lv ={
+const Map<String, String> lv = {
   "begateway_form_hint_card_number": "Kartes numurs",
   "begateway_form_hint_expiration": "Derīguma termiņš",
   "begateway_form_hint_cardholder_name": "Vārds, uzvārds uz kartes",
@@ -14,12 +14,14 @@ const Map<String, String> lv ={
   "begateway_cvv_invalid": "CVV/CVC nav derīgs",
   "begateway_expiration_required": "Derīguma termiņš jānorāda obligāti",
   "begateway_expiration_invalid": "Derīguma termiņš nav derīgs",
-  "begateway_cardholder_name_required": "Vārds, uzvārds uz kartes jānorāda obligāti",
+  "begateway_cardholder_name_required":
+      "Vārds, uzvārds uz kartes jānorāda obligāti",
   "begateway_savecard": "Saglabāt karti",
   "begateway_button_pay": "Maksāt",
   "begateway_secure_info": "Drošo pakalpojumu nodrošina",
   "change": "Mainīt",
-  "sorry_incorrect_data": "Radās maksājuma kļūda. Mēģiniet vēlreiz vai izmantojiet citu karti.",
+  "sorry_incorrect_data":
+      "Radās maksājuma kļūda. Mēģiniet vēlreiz vai izmantojiet citu karti.",
   "ok": "Labi",
   "cancel": "Atcelt",
   "turn_on": "Ieslēgt",

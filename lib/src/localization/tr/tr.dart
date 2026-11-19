@@ -1,4 +1,4 @@
-const Map<String, String> tr ={
+const Map<String, String> tr = {
   "begateway_form_hint_card_number": "Kart numarası",
   "begateway_form_hint_expiration": "Son kullanma tarihi",
   "begateway_form_hint_cardholder_name": "Kart üzerindeki isim",
@@ -19,7 +19,8 @@ const Map<String, String> tr ={
   "begateway_button_pay": "Öde",
   "begateway_secure_info": "Güvenli ödeme sağlayıcısı",
   "change": "Değiştir",
-  "sorry_incorrect_data": "Ödeme hatası. Tekrar deneyin veya başka bir kart kullanın.",
+  "sorry_incorrect_data":
+      "Ödeme hatası. Tekrar deneyin veya başka bir kart kullanın.",
   "ok": "Tamam",
   "cancel": "İptal",
   "turn_on": "Aç",
@@ -27,7 +28,8 @@ const Map<String, String> tr ={
   "an_error_occurred_during_scanning": "Tarama sırasında bir hata oluştu",
   "please_turn_on_nfc": "Lütfen NFC'yi açın",
   "nfc_not_supported": "NFC desteklenmiyor",
-  "please_attach_bank_card_to_the_phone": "Lütfen banka kartını telefona ekleyin",
+  "please_attach_bank_card_to_the_phone":
+      "Lütfen banka kartını telefona ekleyin",
   "from_photo": "Kamerayla tara",
   "scan_by_nfc": "NFC ile tara",
   "please_wait": "Lütfen bekleyin",

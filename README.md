@@ -120,10 +120,71 @@ const products = [
 Code:
 ```dart
 import 'package:flutter/material.dart';
-import 'package:begateway_flutter_sdk.dart';
+import 'package:begateway_flutter_sdk/begateway_flutter_sdk.dart';
 
 void main() {
   runApp(const MyApp());
+}
+
+/// Страницы оплаты: ядро SDK не содержит UI — приложение реализует
+/// [BegatewayPages] и передаёт его в `Begateway.pages`.
+///
+/// Готовые реализации страниц из примера (можно скопировать в проект
+/// и адаптировать): `example/lib/pages/` — CardPaymentForm, ChoosePay,
+/// WebViewApp.
+class MyAppBegatewayPages extends BegatewayPages {
+  const MyAppBegatewayPages();
+
+  @override
+  Widget buildPaymentPage(BuildContext context) {
+    final lang = AppStateScope.of(context).config.language.toString();
+    return MyPaymentFormPage(lang: lang); // ваша форма оплаты
+  }
+
+  @override
+  Widget buildChoosePayPage(
+    BuildContext context,
+    List<SaveCardModel> cards,
+    ValueChanged<String> removeCard,
+  ) {
+    final lang = AppStateScope.of(context).config.language.toString();
+    return MyChoosePayPage( // ваш экран выбора сохранённых карт
+      savedCards: cards,
+      lang: lang,
+      removeCard: removeCard,
+    );
+  }
+
+  @override
+  Widget buildWebViewPage(BuildContext context) =>
+      const MyWebViewPage(); // ваш WebView: платёжная страница / 3-D Secure
+}
+
+/// Хранилище сохранённых карт и данных платежа: ядро не привязано
+/// к `shared_preferences` — приложение само выбирает, где хранить
+/// (см. StorageService; готовая реализация из примера:
+/// `example/lib/utils/shared_prefs_storage.dart`).
+class MyStorage implements StorageService {
+  @override
+  Future<void> addCard(SaveCardModel card) async {
+    // записать карту в ваше хранилище
+  }
+
+  @override
+  Future<List<SaveCardModel>> getCards() async => [];
+
+  @override
+  Future<void> removeCard(String saveToken) async {
+    // удалить карту по токену
+  }
+
+  @override
+  Future<void> setCompanyName(String name) async {
+    // сохранить название компании для блока «безопасно»
+  }
+
+  @override
+  Future<String?> getCompanyName() async => null;
 }
 
 class MyApp extends StatefulWidget {
@@ -155,14 +216,18 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: isBegateway
           ? Begateway(
-              //required parameters
+              // реализация страниц оплаты
+              pages: const MyAppBegatewayPages(),
+              // реализация хранилища сохранённых карт
+              storage: MyStorage(),
+              // обязательные параметры
               showIsBegateway: showIsBegateway,
               getAnswearFromBegateway: getAnswearFromBegateway,
               publicKey:
                   'your beGateway public key or token',
               test: true,
               transactionType: 'payment',
-              amount: '4299',
+              amount: 4299,
               currency: 'GBP',
               description: 'Some description about product',
               language: 'ru',
@@ -174,6 +239,12 @@ class _MyAppState extends State<MyApp> {
               applePayConfig: defaultApplePay,
               googlePayConfig: defaultGooglePay,
               paymentItems: products,
+
+              // данные клиента для запросов к API (по умолчанию пустые:
+              // пустые значения bePaid трактует как отсутствующие поля)
+              customerAddress: 'ул. Ленина, 1',
+              customerCity: 'Минск',
+              deviceId: 'device-id',
 
               //optional parameters for customizing styles
 

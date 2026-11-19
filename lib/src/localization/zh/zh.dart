@@ -1,4 +1,4 @@
-const Map<String, String> zh ={
+const Map<String, String> zh = {
   "begateway_form_hint_card_number": "卡号",
   "begateway_form_hint_expiration": "到期日期",
   "begateway_form_hint_cardholder_name": "持卡人姓名",

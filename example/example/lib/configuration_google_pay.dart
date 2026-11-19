@@ -1,4 +1,4 @@
-const String  defaultGooglePay = '''{
+const String defaultGooglePay = '''{
   "provider": "google_pay",
   "data": {
     "environment": "TEST",

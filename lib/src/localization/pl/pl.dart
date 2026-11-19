@@ -1,4 +1,4 @@
-const Map<String, String> pl ={
+const Map<String, String> pl = {
   "begateway_form_hint_card_number": "Numer karty",
   "begateway_form_hint_expiration": "Data ważności",
   "begateway_form_hint_cardholder_name": "Nazwisko na karcie",
@@ -19,7 +19,8 @@ const Map<String, String> pl ={
   "begateway_button_pay": "Zapłać",
   "begateway_secure_info": "Bezpieczną płatność zapewnCVV/CVC",
   "change": "Zmień",
-  "sorry_incorrect_data": "Wystąpił błąd płatności. Spróbuj ponownie lub użyj innej karty.",
+  "sorry_incorrect_data":
+      "Wystąpił błąd płatności. Spróbuj ponownie lub użyj innej karty.",
   "ok": "OK",
   "cancel": "Anuluj",
   "turn_on": "Włącz",

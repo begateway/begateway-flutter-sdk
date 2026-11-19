@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:begateway_flutter_sdk/src/api/api_client.dart';
+import 'package:begateway_flutter_sdk/src/api/checkout_request.dart';
 import 'package:begateway_flutter_sdk/src/api/fetch_pay_card.dart';
 import 'package:begateway_flutter_sdk/src/constants/constants.dart';
-import 'package:http/http.dart' as http;
+import 'package:begateway_flutter_sdk/src/models/checkout_token.dart';
 import 'package:begateway_flutter_sdk/src/providers/app_state.dart';
 import 'package:flutter/material.dart';
 
@@ -13,79 +15,45 @@ Future<void> fetchPayWithToken(
   String cvv,
   String nameHolder,
 ) async {
-  final url = Uri.parse(ApiConstants.checkoutUrl);
-  final headers = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'X-API-Version': '2.1',
-    'Authorization': appState.publicKey!,
-  };
-
-  final requestData = {
-    'checkout': {
-      'test': appState.test,
-      'transaction_type': appState.transactionType,
-      'attempts': 3,
-      'settings': {
-        'save_card_toggle': {
-          'customer_contract': appState.customerContract,
-        },
-        'auto_return': 0,
-        'button_text': appState.buttonText,
-        'language': appState.language,
-        'customer_fields': {
-          'visible': ['first_name', 'last_name'],
-          'read_only': ['email'],
-        },
-        'credit_card_fields': {
-          'holder': appState.holder,
-          'read_only': ['holder'],
-        },
-      },
-      'order': {
-        'currency': appState.currency,
-        'amount': appState.amount,
-        'description': appState.description,
-        'additional_data': {
-          //'receipt_text': props.receipt_text,
-          'contract': ['oneclick'],
-        },
-      },
-      // 'card_on_file': {
-      //   'initiator': props.initiator,
-      //   'type': props.type,
-      // },
-      'customer': {
-        'address': 'Baker street 221b',
-        'country': appState.customerCountry,
-        'city': 'London',
-        'email': appState.customerEmail,
-      },
-    },
-    // Add other data fields as needed
-  };
   try {
     appState.setIsLoading(true);
-    final response =
-        await http.post(url, headers: headers, body: jsonEncode(requestData));
-    Map<String, dynamic> answearSend = await json.decode(response.body);
-    if (response.statusCode == 201) {
-      // Successful request
-      String token = await json.decode(response.body)["checkout"]["token"];
-      appState.setToken(token);
-      await fetchPayCard(appState, token, nameHolder, cardNumber, expiration,
-          cvv, appState.isSaveCard, appState.saveCardToken);
+    final response = await ApiClient.post(
+      Uri.parse(ApiConstants.checkoutUrl),
+      headers: checkoutHeaders(appState),
+      body: checkoutBody(appState),
+    );
 
-      //debugPrint('Response data: $pay');
-      //appState.setIsLoading(false);
+    final answearSend = json.decode(response.body) as Map<String, dynamic>;
+    if (response.statusCode == 201) {
+      // Successful request: структура ответа проверяется паттерном.
+      final checkout = CheckoutToken.fromJson(answearSend);
+      appState.setToken(checkout.token);
+
+      if (appState.saveCardToken.isNotEmpty) {
+        // Оплата по сохранённой карте: покупатель подтверждает платёж
+        // на платёжной странице bePaid, WebView перехватывает возврат
+        // по savedCardReturnUrl и запрашивает статус транзакции.
+        final redirectUrl = checkout.redirectUrl;
+        if (redirectUrl == null) {
+          throw ArgumentError('No redirect_url in checkout: $answearSend');
+        }
+        appState.openWebView(url: redirectUrl, resultUrl: savedCardReturnUrl);
+        // Токен уже ушёл в checkout — сбрасываем, чтобы он не попал
+        // в следующие запросы (Apple Pay, Google Pay, новая карта).
+        appState.setSaveCardToken('');
+        return;
+      }
+
+      await fetchPayCard(appState, checkout.token, nameHolder, cardNumber,
+          expiration, cvv, appState.isSaveCard.value, appState.saveCardToken);
     } else {
-      // Unsuccessful request
+      // запрос не выполнен
       appState.updateIsBegateway(false);
       appState.answearBegateway(answearSend);
       appState.setIsLoading(false);
     }
   } catch (e) {
-    // Error Handling
+    // обработка ошибок
     appState.setIsLoading(false);
     debugPrint('Error: $e');
   }

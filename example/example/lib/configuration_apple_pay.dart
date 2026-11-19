@@ -31,4 +31,3 @@ const String defaultApplePay = '''{
     ]
   }
 }''';
-

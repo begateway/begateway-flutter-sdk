@@ -1,4 +1,4 @@
-const Map<String, String> de ={
+const Map<String, String> de = {
   "begateway_form_hint_card_number": "Kartennummer",
   "begateway_form_hint_expiration": "Ablaufdatum",
   "begateway_form_hint_cardholder_name": "Name auf der Karte",
@@ -19,15 +19,18 @@ const Map<String, String> de ={
   "begateway_button_pay": "Bezahlen",
   "begateway_secure_info": "Sichere Zahlungsmethode wird angeboten von",
   "change": "Ändern",
-  "sorry_incorrect_data": "Es ist ein Zahlungsfehler aufgetreten. Versuchen Sie es erneut oder verwenden Sie eine andere Karte.",
+  "sorry_incorrect_data":
+      "Es ist ein Zahlungsfehler aufgetreten. Versuchen Sie es erneut oder verwenden Sie eine andere Karte.",
   "ok": "OK",
   "cancel": "Abbrechen",
   "turn_on": "Einschalten",
   "error": "Fehler",
-  "an_error_occurred_during_scanning": "Beim Scannen ist ein Fehler aufgetreten",
+  "an_error_occurred_during_scanning":
+      "Beim Scannen ist ein Fehler aufgetreten",
   "please_turn_on_nfc": "Bitte schalte NFC ein",
   "nfc_not_supported": "NFC wird nicht unterstützt",
-  "please_attach_bank_card_to_the_phone": "Bitte Bankkarte dem Telefon zuführen",
+  "please_attach_bank_card_to_the_phone":
+      "Bitte Bankkarte dem Telefon zuführen",
   "from_photo": "Mit der Kamera scannen",
   "scan_by_nfc": "Per NFC scannen",
   "please_wait": "Bitte warten",

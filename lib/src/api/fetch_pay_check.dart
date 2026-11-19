@@ -1,46 +1,54 @@
-import 'dart:async';
 import 'dart:convert';
 
+import 'package:begateway_flutter_sdk/src/api/api_client.dart';
 import 'package:begateway_flutter_sdk/src/constants/constants.dart';
+import 'package:begateway_flutter_sdk/src/models/checkout_status.dart';
 import 'package:begateway_flutter_sdk/src/providers/app_state.dart';
-import 'package:flutter/foundation.dart';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> fetchPayCheck(
   AppState appState,
 ) async {
   final url = Uri.parse(ApiConstants.checkoutUrl + appState.token);
-  // Data for the headers request
+  // данные для заголовков запроса
   final headersData = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     'X-API-Version': '2.1',
   };
   try {
-    // Make request
+    // запрос
     appState.setIsLoading(true);
-    final response = await http.get(url, headers: headersData);
-    String status = await json.decode(response.body)["checkout"]["status"];
-    if (status == 'successful' || status == 'failed' || status == 'error') {
-      // Successful request
-      Map<String, dynamic> answear = await json.decode(response.body);
-      String nameCompany = answear["checkout"]["company"]["name"];
+    final response = await ApiClient.get(url, headers: headersData);
+
+    // Тело декодируется один раз: раньше здесь было два json.decode
+    // по одному и тому же response.body.
+    final answear = json.decode(response.body) as Map<String, dynamic>;
+    // Структура ответа проверяется паттерном; company может отсутствовать
+    // до финального статуса — тогда companyName остаётся null.
+    final checkout = CheckoutStatus.fromJson(answear);
+
+    if (checkout.status == 'successful' ||
+        checkout.status == 'failed' ||
+        checkout.status == 'error') {
+      // Successful request — опрос останавливаем: статус финальный.
+      appState.cancelStatusCheck();
       appState.updateIsBegateway(false);
       appState.answearBegateway(answear);
       appState.setIsLoading(false);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('nameCompany', nameCompany);
+      final nameCompany = checkout.companyName;
+      if (nameCompany != null) {
+        await appState.storage.setCompanyName(nameCompany);
+      }
     } else {
-      Timer.periodic(const Duration(seconds: 3), (Timer timer) {
-        fetchPayCheck(appState);
-      });
+      // Статус ещё не финальный — повторяем через 3 секунды. Один таймер
+      // на замену старому, накопления опросов больше нет.
+      appState.scheduleStatusCheck(() => fetchPayCheck(appState));
     }
   } catch (e) {
-    // If Error
+    // If Error — пробуем проверить статус ещё раз позже.
     appState.setIsLoading(false);
     debugPrint('Error: $e');
+    appState.scheduleStatusCheck(() => fetchPayCheck(appState));
   }
 }

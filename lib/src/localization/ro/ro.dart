@@ -1,4 +1,4 @@
-const Map<String, String> ro ={
+const Map<String, String> ro = {
   "begateway_form_hint_card_number": "Număr card",
   "begateway_form_hint_expiration": "Data expirării",
   "begateway_form_hint_cardholder_name": "Numele de pe card",
@@ -19,7 +19,8 @@ const Map<String, String> ro ={
   "begateway_button_pay": "Plătiți",
   "begateway_secure_info": "Plata securizată este oferită de",
   "change": "Schimbare",
-  "sorry_incorrect_data": "A apărut o eroare de plată. Încercați din nou sau utilizați un alt card.",
+  "sorry_incorrect_data":
+      "A apărut o eroare de plată. Încercați din nou sau utilizați un alt card.",
   "ok": "OK",
   "cancel": "Anulare",
   "turn_on": "Pornire",
@@ -27,7 +28,8 @@ const Map<String, String> ro ={
   "an_error_occurred_during_scanning": "A apărut o eroare în timpul scanării",
   "please_turn_on_nfc": "Activați NFC",
   "nfc_not_supported": "NFC nu este acceptat",
-  "please_attach_bank_card_to_the_phone": "Vă rugăm să atașați cardul bancar la telefon",
+  "please_attach_bank_card_to_the_phone":
+      "Vă rugăm să atașați cardul bancar la telefon",
   "from_photo": "Scanați prin cameră",
   "scan_by_nfc": "Scanați prin NFC",
   "please_wait": "Vă rugăm să așteptați",

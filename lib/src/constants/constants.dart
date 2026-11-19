@@ -1,5 +1,5 @@
 class ApiConstants {
-  // URL for your API
+  // URL вашего API
   static const String bePaidUrl = 'https://bepaid.by/';
   static const String baseUrl = 'https://checkout.bepaid.by/';
   static const String checkoutUrl = '${baseUrl}ctp/api/checkouts/';
